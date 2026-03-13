@@ -12,6 +12,7 @@ const loginFormElement = document.getElementById('loginFormElement');
 const regForm = document.getElementById('regForm');
 const cancelLogin = document.getElementById('cancelLogin');
 const cancelReg = document.getElementById('cancelReg');
+const ctaLoginBtn = document.getElementById('ctaLoginBtn');
 const userMenu = document.getElementById('userMenu');
 const userName = document.getElementById('userName');
 const userEmail = document.getElementById('userEmail');
@@ -237,8 +238,13 @@ class LanguageManager {
     constructor() {
         this.currentLanguage = getStorageValue('language') || 'ky';
         const kyrgyzTranslations = {
+            heroBadge: 'Кыргыз оюн платформасы',
             welcome: 'Оюн дүйнөсүнө кош келиңиз!',
-            description: 'Кызыктуу оюндарды ачып, унутулгус таасир алыңыз',
+            description: 'Көчмөн Ордо — салттуу идеяларды жана заманбап оюн тажрыйбасын бириктирген платформа.',
+            viewGames: 'Оюндарды көрүү',
+            highlightOne: '4 оюн',
+            highlightTwo: '1 аккаунт',
+            highlightThree: 'Тез старт',
             login: 'Кирүү',
             play: 'Ойной баштоо',
             profile: 'Профиль',
@@ -296,6 +302,18 @@ class LanguageManager {
             },
             passwordMatch: 'Сырсөздөр дал келди',
             passwordNoMatch: 'Сырсөздөр дал келген жок',
+            stepsTitle: 'Кандай иштейт',
+            stepsDesc: 'Үч жөнөкөй кадам жана сиз оюнга даярсыз.',
+            step1Title: 'Катталуу',
+            step1Desc: 'Бир мүнөттө аккаунт түзүп, профилиңизди сактайсыз.',
+            step2Title: 'Оюн тандоо',
+            step2Desc: 'Көчмөн Орноку, Канаттуу куш же Кыз куумайды тандаңыз.',
+            kyzKuumaiOne: 'Кыз куумай (IEI)',
+            kyzKuumaiOneDesc: 'Кыргыз элинин ат оюну. Ылдамдык жана реакция.',
+            kyzKuumaiTwo: 'Кыз куумай (DGONI)',
+            kyzKuumaiTwoDesc: 'Аркада форматындагы ылдам жарыш.',
+            step3Title: 'Ойной баштоо',
+            step3Desc: 'Бир баскыч менен оюнга кирип кетиңиз.',
             fastDownload: 'Тез жүктөө',
             fastDownloadDesc: 'Оюндар заматта жүктөлөт',
             security: 'Коопсуздук',
@@ -315,6 +333,8 @@ class LanguageManager {
             welcomeBack: 'Кайра кош келиңиз',
             welcomeToStore: 'Көчмөн Ордо платформасына кош келиңиз',
             registrationSuccess: 'Катталуу ийгиликтүү бүттү!',
+            ctaTitle: 'Даярсызбы? Оюнга кирели!',
+            ctaDesc: 'Катталып, сүйүктүү оюнуңузду тандап бүгүн ойной баштаңыз.',
             logoutSuccess: 'Аккаунттан ийгиликтүү чыктыңыз!',
             accountDeleted: 'Аккаунт ийгиликтүү өчүрүлдү!',
             usernameChanged: 'Колдонуучу аты ийгиликтүү өзгөртүлдү!',
@@ -345,16 +365,9 @@ class LanguageManager {
             kochmonOrnokuDesc: 'Улуттук рухтагы оюн',
             flappyBird: 'Канаттуу куш',
             flappyBirdDesc: 'Классикалык аркада учуу оюну',
-            arkanTartysh: 'Аркан тартыш',
-            arkanTartyshDesc: 'Салттуу юлүш оюну',
-            toguzKorgool: 'Тогуз коргоол',
-            toguzKorgoolDesc: 'Салттуу манкала оюну',
-            jaaAtuu: 'Жаа атуу',
-            jaaAtuuDesc: 'Ыктыярчы окучулардын оюну',
-            kokBoru: 'Кок-бору',
-            kokBoruDesc: 'Аткой аркада оюну',
             kochmonLoading: 'Көчмөн Орноку ачылып жатат!',
             flappyLoading: 'Канаттуу куш ачылып жатат!',
+            kyzKuumaiLoading: 'Кыз куумай ачылып жатат!',
             gameLoading: 'Оюн ачылып жатат...',
             logoutConfirm: 'Аккаунттан чыгасызбы?',
             logoutConfirmText: 'Аккаунттан чыгууга ишенесизби?',
@@ -400,6 +413,47 @@ class LanguageManager {
         // Обновляем основные элементы
         document.querySelector('.hero-title').textContent = this.getText('welcome');
         document.querySelector('.hero-description').textContent = this.getText('description');
+
+        const heroBadge = document.querySelector('#heroBadge');
+        if (heroBadge) {
+            heroBadge.innerHTML = `<i class="fas fa-mountain"></i> ${this.getText('heroBadge')}`;
+        }
+
+        const gamesBtnText = document.querySelector('#gamesBtn');
+        if (gamesBtnText) {
+            gamesBtnText.innerHTML = `<i class="fas fa-gamepad"></i> ${this.getText('viewGames')}`;
+        }
+
+        const highlightOne = document.querySelector('#highlightOne');
+        if (highlightOne) highlightOne.textContent = this.getText('highlightOne');
+        const highlightTwo = document.querySelector('#highlightTwo');
+        if (highlightTwo) highlightTwo.textContent = this.getText('highlightTwo');
+        const highlightThree = document.querySelector('#highlightThree');
+        if (highlightThree) highlightThree.textContent = this.getText('highlightThree');
+
+        const stepsTitle = document.querySelector('#stepsTitle');
+        if (stepsTitle) stepsTitle.textContent = this.getText('stepsTitle');
+        const stepsDesc = document.querySelector('#stepsDesc');
+        if (stepsDesc) stepsDesc.textContent = this.getText('stepsDesc');
+        const step1Title = document.querySelector('#step1Title');
+        if (step1Title) step1Title.textContent = this.getText('step1Title');
+        const step1Desc = document.querySelector('#step1Desc');
+        if (step1Desc) step1Desc.textContent = this.getText('step1Desc');
+        const step2Title = document.querySelector('#step2Title');
+        if (step2Title) step2Title.textContent = this.getText('step2Title');
+        const step2Desc = document.querySelector('#step2Desc');
+        if (step2Desc) step2Desc.textContent = this.getText('step2Desc');
+        const step3Title = document.querySelector('#step3Title');
+        if (step3Title) step3Title.textContent = this.getText('step3Title');
+        const step3Desc = document.querySelector('#step3Desc');
+        if (step3Desc) step3Desc.textContent = this.getText('step3Desc');
+
+        const ctaTitle = document.querySelector('#ctaTitle');
+        if (ctaTitle) ctaTitle.textContent = this.getText('ctaTitle');
+        const ctaDesc = document.querySelector('#ctaDesc');
+        if (ctaDesc) ctaDesc.textContent = this.getText('ctaDesc');
+        const ctaLogin = document.querySelector('#ctaLoginBtn');
+        if (ctaLogin) ctaLogin.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${this.getText('login')}`;
         
         // Обновляем навигацию
         const navLinks = document.querySelectorAll('.nav-link');
@@ -604,6 +658,10 @@ bindEvent(loginBtn, 'click', function() {
     showAuthForms();
 });
 
+bindEvent(ctaLoginBtn, 'click', function() {
+    showAuthForms();
+});
+
 // Обработчики табов
 bindEvent(loginTab, 'click', function() {
     switchToLoginTab();
@@ -796,6 +854,30 @@ document.querySelectorAll('.theme-btn').forEach(btn => {
 const emailNotificationsInput = document.getElementById('emailNotifications');
 const gameNotificationsInput = document.getElementById('gameNotifications');
 const newsNotificationsInput = document.getElementById('newsNotifications');
+
+function syncSettingsUI() {
+    const currentLanguage = languageManager.currentLanguage;
+    document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
+    });
+
+    const currentTheme = settingsManager.settings.theme;
+    document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.theme === currentTheme);
+    });
+
+    if (emailNotificationsInput) {
+        emailNotificationsInput.checked = !!settingsManager.settings.notifications.email;
+    }
+    if (gameNotificationsInput) {
+        gameNotificationsInput.checked = !!settingsManager.settings.notifications.games;
+    }
+    if (newsNotificationsInput) {
+        newsNotificationsInput.checked = !!settingsManager.settings.notifications.news;
+    }
+}
+
+syncSettingsUI();
 
 bindEvent(emailNotificationsInput, 'change', function() {
     settingsManager.settings.notifications.email = this.checked;
@@ -1375,15 +1457,8 @@ function updateProfileData() {
     // Получаем данные пользователя из storage
     const user = tempStorage.findUserByEmail(userData.email);
     if (user) {
-        const arkanRecord = JSON.parse(localStorage.getItem('ndn_arkan_record_v2') || '{"left":0,"right":0}');
-        const toguzRecord = JSON.parse(localStorage.getItem('ndn_toguz_record_v2') || '{"p1":0,"p2":0}');
-        const jaaBest = Number(localStorage.getItem('ndn_jaa_best_v2') || 0);
-        const kokBest = Number(localStorage.getItem('ndn_kok_best_v2') || 0);
-
-        const arkanWins = (arkanRecord.left || 0) + (arkanRecord.right || 0);
-        const toguzWins = (toguzRecord.p1 || 0) + (toguzRecord.p2 || 0);
-        const computedPlayed = arkanWins + toguzWins + (jaaBest > 0 ? 1 : 0) + (kokBest > 0 ? 1 : 0);
-        gamesPlayed.textContent = Math.max(user.gamesPlayed || 0, computedPlayed);
+        const played = Number(user.gamesPlayed || 0);
+        gamesPlayed.textContent = played;
 
         if (user.lastLogin) {
             const lastLoginDate = new Date(user.lastLogin);
@@ -1399,7 +1474,7 @@ function updateProfileData() {
         }
 
         if (profileLevel && profileXP && profileRankTitle && profileXPFill && profileAchievements) {
-            const xp = (arkanWins * 20) + (toguzWins * 25) + (jaaBest * 8) + (kokBest * 30);
+            const xp = played * 50;
             const levelSize = 120;
             const level = Math.floor(xp / levelSize) + 1;
             const levelProgress = Math.floor((xp % levelSize) / levelSize * 100);
@@ -1416,11 +1491,10 @@ function updateProfileData() {
             profileXPFill.style.width = `${Math.max(0, Math.min(100, levelProgress))}%`;
 
             const badges = [
-                { title: 'Arkan Starter', unlocked: arkanWins >= 3 },
-                { title: 'Toguz Strategist', unlocked: toguzWins >= 3 },
-                { title: 'Sharp Archer', unlocked: jaaBest >= 40 },
-                { title: 'Kok-boru Captain', unlocked: kokBest >= 5 },
-                { title: 'Steppe Legend', unlocked: xp >= 800 }
+                { title: 'Алгачкы кадам', unlocked: played >= 1 },
+                { title: 'Туруктуу оюнчу', unlocked: played >= 5 },
+                { title: 'Көчмөн руху', unlocked: played >= 10 },
+                { title: 'Дала легендасы', unlocked: xp >= 800 }
             ];
 
             profileAchievements.innerHTML = '';
@@ -1695,26 +1769,6 @@ function showGameSelection() {
                 </button>
             </div>
             <div class="games-grid">
-                <div class="game-card-modal" onclick="startGame('arkan')">
-                    <i class="fas fa-people-pulling"></i>
-                    <h3>${languageManager.getText('arkanTartysh')}</h3>
-                    <p>${languageManager.getText('arkanTartyshDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('toguz')">
-                    <i class="fas fa-circle-dot"></i>
-                    <h3>${languageManager.getText('toguzKorgool')}</h3>
-                    <p>${languageManager.getText('toguzKorgoolDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('jaa')">
-                    <i class="fas fa-bullseye"></i>
-                    <h3>${languageManager.getText('jaaAtuu')}</h3>
-                    <p>${languageManager.getText('jaaAtuuDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('kok')">
-                    <i class="fas fa-horse"></i>
-                    <h3>${languageManager.getText('kokBoru')}</h3>
-                    <p>${languageManager.getText('kokBoruDesc')}</p>
-                </div>
                 <div class="game-card-modal" onclick="startGame('kochmon')">
                     <i class="fas fa-users"></i>
                     <h3>${languageManager.getText('kochmonOrnoku')}</h3>
@@ -1724,6 +1778,16 @@ function showGameSelection() {
                     <i class="fas fa-bird"></i>
                     <h3>${languageManager.getText('flappyBird')}</h3>
                     <p>${languageManager.getText('flappyBirdDesc')}</p>
+                </div>
+                <div class="game-card-modal" onclick="startGame('kyz1')">
+                    <i class="fas fa-horse-head"></i>
+                    <h3>${languageManager.getText('kyzKuumaiOne')}</h3>
+                    <p>${languageManager.getText('kyzKuumaiOneDesc')}</p>
+                </div>
+                <div class="game-card-modal" onclick="startGame('kyz2')">
+                    <i class="fas fa-flag-checkered"></i>
+                    <h3>${languageManager.getText('kyzKuumaiTwo')}</h3>
+                    <p>${languageManager.getText('kyzKuumaiTwoDesc')}</p>
                 </div>
             </div>
         </div>
@@ -1765,19 +1829,15 @@ window.startGame = function(gameType) {
     const gameMessages = {
         kochmon: languageManager.getText('kochmonLoading'),
         flappy: languageManager.getText('flappyLoading'),
-        arkan: languageManager.getText('gameLoading'),
-        toguz: languageManager.getText('gameLoading'),
-        jaa: languageManager.getText('gameLoading'),
-        kok: languageManager.getText('gameLoading')
+        kyz1: languageManager.getText('kyzKuumaiLoading'),
+        kyz2: languageManager.getText('kyzKuumaiLoading')
     };
     
     const gameLinks = {
         kochmon: 'https://nurel077.github.io/NDN_games/',
         flappy: 'https://nurel077.github.io/flappy_bird/',
-        arkan: 'arkan-tartysh.html',
-        toguz: 'toguz-korgool.html',
-        jaa: 'jaa-atuu.html',
-        kok: 'kok-boru.html'
+        kyz1: 'https://tw1zzyy.github.io/kyzkuumai_project_iei/',
+        kyz2: 'https://dgoni0707.github.io/Kyz-Kuumai/'
     };
 
     if (!gameLinks[gameType]) {
@@ -1813,11 +1873,19 @@ window.startGame = function(gameType) {
     document.body.appendChild(message);
     
     // Открываем игру в новой вкладке или в текущей странице
-    const externalGames = ['kochmon', 'flappy'];
+    const externalGames = ['kochmon', 'flappy', 'kyz1', 'kyz2'];
+    const isExternal = externalGames.includes(gameType);
+    const externalWindow = isExternal ? window.open('', '_blank') : null;
+
     setTimeout(() => {
-        if (externalGames.includes(gameType)) {
-            // Внешние игры - открываем в новой вкладке
-            window.open(gameLinks[gameType], '_blank');
+        if (isExternal) {
+            // Внешние игры - открываем в новой вкладке без блокировки попапа
+            if (externalWindow) {
+                externalWindow.location.href = gameLinks[gameType];
+                externalWindow.focus();
+            } else {
+                window.location.href = gameLinks[gameType];
+            }
         } else {
             // Локальные игры - переходим на текущей странице
             window.location.href = gameLinks[gameType];

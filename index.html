@@ -13,7 +13,7 @@
             <div class="header-content">
                 <div class="logo">
                     <i class="fas fa-gamepad"></i>
-                    <h1>Кочмон Ордо</h1>
+                    <h1>Көчмөн Ордо</h1>
                 </div>
                 <nav class="nav">
                     <a href="games.html" class="nav-link">Оюндар</a>
@@ -57,8 +57,17 @@
         <main class="main">
             <section class="hero" id="mainPage">
                 <div class="hero-content">
+                    <div class="hero-badge" id="heroBadge">
+                        <i class="fas fa-mountain"></i>
+                        Кыргыз оюн платформасы
+                    </div>
                     <h2 class="hero-title">Оюн дүйнөсүнө кош келиңиз!</h2>
-                    <p class="hero-description">Салттуу кыргыз оюндары жана заманбап мини-оюндар бир жерде.</p>
+                    <p class="hero-description">Көчмөн Ордо — салттуу идеяларды жана заманбап оюн тажрыйбасын бириктирген платформа.</p>
+                    <div class="hero-highlights">
+                        <span class="highlight-pill" id="highlightOne">4 оюн</span>
+                        <span class="highlight-pill" id="highlightTwo">1 аккаунт</span>
+                        <span class="highlight-pill" id="highlightThree">Тез старт</span>
+                    </div>
                     <div class="hero-buttons">
                         <button class="btn btn-primary" id="loginBtn">
                             <i class="fas fa-sign-in-alt"></i>
@@ -68,6 +77,10 @@
                             <i class="fas fa-play"></i>
                             Ойной баштоо
                         </button>
+                        <a class="btn btn-ghost" id="gamesBtn" href="games.html">
+                            <i class="fas fa-gamepad"></i>
+                            Оюндарды көрүү
+                        </a>
                     </div>
 
                     <div class="auth-forms" id="authForms" style="display: none;">
@@ -154,6 +167,30 @@
                 </div>
             </section>
 
+            <section class="steps">
+                <div class="section-head">
+                    <h3 class="section-title" id="stepsTitle">Кандай иштейт</h3>
+                    <p class="section-subtitle" id="stepsDesc">Үч жөнөкөй кадам жана сиз оюнга даярсыз.</p>
+                </div>
+                <div class="steps-grid">
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-user-plus"></i></div>
+                        <h4 id="step1Title">Катталуу</h4>
+                        <p id="step1Desc">Бир мүнөттө аккаунт түзүп, профилиңизди сактайсыз.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-layer-group"></i></div>
+                        <h4 id="step2Title">Оюн тандоо</h4>
+                        <p id="step2Desc">Көчмөн Орноку, Канаттуу куш же Кыз куумайды тандаңыз.</p>
+                    </div>
+                    <div class="step-card">
+                        <div class="step-icon"><i class="fas fa-bolt"></i></div>
+                        <h4 id="step3Title">Ойной баштоо</h4>
+                        <p id="step3Desc">Бир баскыч менен оюнга кирип кетиңиз.</p>
+                    </div>
+                </div>
+            </section>
+
             <section class="features">
                 <div class="feature">
                     <i class="fas fa-bolt"></i>
@@ -169,6 +206,25 @@
                     <i class="fas fa-people-group"></i>
                     <h3>Улуттук тематика</h3>
                     <p>Кыргыз салттуу оюндарын заманбап форматта.</p>
+                </div>
+            </section>
+
+            <section class="cta-section">
+                <div class="cta-card">
+                    <div class="cta-text">
+                        <h3 id="ctaTitle">Даярсызбы? Оюнга кирели!</h3>
+                        <p id="ctaDesc">Катталып, сүйүктүү оюнуңузду тандап бүгүн ойной баштаңыз.</p>
+                    </div>
+                    <div class="cta-actions">
+                        <button class="btn btn-primary" id="ctaLoginBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Кирүү
+                        </button>
+                        <a class="btn btn-secondary" href="games.html">
+                            <i class="fas fa-gamepad"></i>
+                            Оюндар
+                        </a>
+                    </div>
                 </div>
             </section>
 
@@ -282,7 +338,7 @@
         <footer class="footer">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h4>Кочмон Ордо</h4>
+                    <h4>Көчмөн Ордо</h4>
                     <p>Улуттук оюндардын санарип мейкиндиги.</p>
                 </div>
                 <div class="footer-section">

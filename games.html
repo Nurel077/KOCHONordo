@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Оюндар - Кочмон Ордо</title>
   <link rel="stylesheet" href="games-theme.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&display=swap">
 </head>
 <body>
   <main class="shell">
@@ -23,37 +24,7 @@
       <p id="heroDesc">Ар бир оюн өзүнчө баракта ачылат. Логика жана графика жаңыртылды.</p>
     </section>
 
-    <section class="rating">
-      <h3 id="ratingTitle">Жалпы рейтинг</h3>
-      <ul id="ratingList"></ul>
-      <p class="note" id="ratingNote"></p>
-    </section>
-
     <section class="grid">
-      <article class="card">
-        <h3 id="g1t">Аркан тартыш</h3>
-        <p id="g1d">Физикалык инерция, энергия системасы, таймер жана рекорддор.</p>
-        <a class="btn main" href="arkan-tartysh.html" id="g1b">Ачуу</a>
-      </article>
-
-      <article class="card">
-        <h3 id="g2t">Тогуз коргоол</h3>
-        <p id="g2d">18 уя, казан, кармоо эрежеси, түздүк жана жеңиш эсеби.</p>
-        <a class="btn main" href="toguz-korgool.html" id="g2b">Ачуу</a>
-      </article>
-
-      <article class="card">
-        <h3 id="g3t">Жаа атуу</h3>
-        <p id="g3d">Canvas физикасы, шамал, кыймылдаган бута жана так упай системасы.</p>
-        <a class="btn main" href="jaa-atuu.html" id="g3b">Ачуу</a>
-      </article>
-
-      <article class="card">
-        <h3 id="g4t">Кок-бору</h3>
-        <p id="g4d">2D аркада: улак алуу, душмандардан качуу, гол киргизүү, убакыт жана өмүр.</p>
-        <a class="btn main" href="kok-boru.html" id="g4b">Ачуу</a>
-      </article>
-
       <article class="card">
         <h3 id="g5t">Көчмөн Орноку</h3>
         <p id="g5d">Онлайн версия (тышкы шилтеме).</p>
@@ -65,6 +36,18 @@
         <p id="g6d">Классикалык браузер аркадасы (тышкы шилтеме).</p>
         <a class="btn alt" href="https://nurel077.github.io/flappy_bird/" target="_blank" rel="noopener noreferrer" id="g6b">Ачуу</a>
       </article>
+
+      <article class="card">
+        <h3 id="g7t">Кыз куумай (IEI)</h3>
+        <p id="g7d">Салттуу ат оюну, ылдамдык жана реакция.</p>
+        <a class="btn alt" href="https://tw1zzyy.github.io/kyzkuumai_project_iei/" target="_blank" rel="noopener noreferrer" id="g7b">Ачуу</a>
+      </article>
+
+      <article class="card">
+        <h3 id="g8t">Кыз куумай (DGONI)</h3>
+        <p id="g8d">Аркада форматындагы ылдам жарыш.</p>
+        <a class="btn alt" href="https://dgoni0707.github.io/Kyz-Kuumai/" target="_blank" rel="noopener noreferrer" id="g8b">Ачуу</a>
+      </article>
     </section>
   </main>
 
@@ -74,78 +57,38 @@
       ky: {
         navHome: 'Башкы бет', navAbout: 'Биз жөнүндө', navContacts: 'Байланыш',
         heroTitle: 'Оюндар менюсу', heroDesc: 'Ар бир оюн өзүнчө баракта ачылат. Логика жана графика жаңыртылды.',
-        ratingTitle: 'Жалпы рейтинг', ratingNote: 'Формула: Аркан/Тогуз жеңиштери + Жаа best*2 + Кок-бору best*5',
-        g1t: 'Аркан тартыш', g1d: 'Физикалык инерция, энергия системасы, таймер жана рекорддор.',
-        g2t: 'Тогуз коргоол', g2d: '18 уя, казан, кармоо эрежеси, түздүк жана жеңиш эсеби.',
-        g3t: 'Жаа атуу', g3d: 'Canvas физикасы, шамал, кыймылдаган бута жана так упай системасы.',
-        g4t: 'Кок-бору', g4d: '2D аркада: улак алуу, душмандардан качуу, гол киргизүү, убакыт жана өмүр.',
         g5t: 'Көчмөн Орноку', g5d: 'Онлайн версия (тышкы шилтеме).',
         g6t: 'Канаттуу куш', g6d: 'Классикалык браузер аркадасы (тышкы шилтеме).',
-        open: 'Ачуу',
-        rArkan: 'Аркан тартыш: {v} упай', rToguz: 'Тогуз коргоол: {v} упай', rJaa: 'Жаа атуу: {v} упай', rKok: 'Кок-бору: {v} упай', rTotal: 'Жалпы: {v} упай'
+        g7t: 'Кыз куумай (IEI)', g7d: 'Салттуу ат оюну, ылдамдык жана реакция.',
+        g8t: 'Кыз куумай (DGONI)', g8d: 'Аркада форматындагы ылдам жарыш.',
+        open: 'Ачуу'
       },
       ru: {
         navHome: 'Главная', navAbout: 'О нас', navContacts: 'Контакты',
         heroTitle: 'Меню игр', heroDesc: 'Каждая игра открывается на отдельной странице. Графика и механики обновлены.',
-        ratingTitle: 'Общий рейтинг', ratingNote: 'Формула: победы Аркан/Тогуз + best Жаа*2 + best Кок-бору*5',
-        g1t: 'Аркан тартыш', g1d: 'Физическая инерция, энергия, таймер и рекорды.',
-        g2t: 'Тогуз коргоол', g2d: '18 лунок, казаны, захваты, туздук и итог побед.',
-        g3t: 'Жаа атуу', g3d: 'Canvas-физика, ветер, движущаяся цель и точный подсчет очков.',
-        g4t: 'Кок-бору', g4d: '2D-аркада: взять улак, обойти соперников, забить гол.',
         g5t: 'Кочмон Орноку', g5d: 'Онлайн версия (внешняя ссылка).',
         g6t: 'Канаттуу куш', g6d: 'Классическая браузерная аркада (внешняя ссылка).',
-        open: 'Открыть',
-        rArkan: 'Аркан тартыш: {v} очков', rToguz: 'Тогуз коргоол: {v} очков', rJaa: 'Жаа атуу: {v} очков', rKok: 'Кок-бору: {v} очков', rTotal: 'Итого: {v} очков'
+        g7t: 'Кыз куумай (IEI)', g7d: 'Традиционная игра на лошадях, скорость и реакция.',
+        g8t: 'Кыз куумай (DGONI)', g8d: 'Аркадный формат скоростной гонки.',
+        open: 'Открыть'
       },
       en: {
         navHome: 'Home', navAbout: 'About', navContacts: 'Contacts',
         heroTitle: 'Games Menu', heroDesc: 'Each game opens on its own page. Graphics and gameplay were improved.',
-        ratingTitle: 'Overall Rating', ratingNote: 'Formula: Arkan/Toguz wins + Archery best*2 + Kok-boru best*5',
-        g1t: 'Arkan Tartysh', g1d: 'Physics inertia, energy system, timer and records.',
-        g2t: 'Toguz Korgool', g2d: '18 pits, kazans, captures, tuzduk and winner stats.',
-        g3t: 'Jaa Atuu', g3d: 'Canvas physics, wind, moving target, and accurate scoring.',
-        g4t: 'Kok-boru', g4d: '2D arcade: pick ulak, avoid rivals, score goals.',
         g5t: 'Kochmon Ornoku', g5d: 'Online version (external link).',
         g6t: 'Flappy Bird', g6d: 'Classic browser arcade (external link).',
-        open: 'Open',
-        rArkan: 'Arkan Tartysh: {v} pts', rToguz: 'Toguz Korgool: {v} pts', rJaa: 'Jaa Atuu: {v} pts', rKok: 'Kok-boru: {v} pts', rTotal: 'Total: {v} pts'
+        g7t: 'Kyz Kuumai (IEI)', g7d: 'Traditional horse game focused on speed and reaction.',
+        g8t: 'Kyz Kuumai (DGONI)', g8d: 'Arcade-style fast race.',
+        open: 'Open'
       }
     };
 
     function tx(key, params) { return NDN.text(T, key, params); }
 
     function applyLang() {
-      const ids = ['navHome','navAbout','navContacts','heroTitle','heroDesc','ratingTitle','ratingNote','g1t','g1d','g2t','g2d','g3t','g3d','g4t','g4d','g5t','g5d','g6t','g6d'];
+      const ids = ['navHome','navAbout','navContacts','heroTitle','heroDesc','g5t','g5d','g6t','g6d','g7t','g7d','g8t','g8d'];
       ids.forEach((id) => document.getElementById(id).textContent = tx(id));
-      ['g1b','g2b','g3b','g4b','g5b','g6b'].forEach((id) => document.getElementById(id).textContent = tx('open'));
-      buildRating();
-    }
-
-    function buildRating() {
-      const a = JSON.parse(localStorage.getItem('ndn_arkan_record_v2') || '{"left":0,"right":0}');
-      const t = JSON.parse(localStorage.getItem('ndn_toguz_record_v2') || '{"p1":0,"p2":0}');
-      const j = Number(localStorage.getItem('ndn_jaa_best_v2') || 0);
-      const k = Number(localStorage.getItem('ndn_kok_best_v2') || 0);
-
-      const arkanPts = (a.left + a.right) * 4;
-      const toguzPts = (t.p1 + t.p2) * 5;
-      const jaaPts = j * 2;
-      const kokPts = k * 5;
-      const total = arkanPts + toguzPts + jaaPts + kokPts;
-
-      const list = document.getElementById('ratingList');
-      list.innerHTML = '';
-      [
-        tx('rArkan', { v: arkanPts }),
-        tx('rToguz', { v: toguzPts }),
-        tx('rJaa', { v: jaaPts }),
-        tx('rKok', { v: kokPts }),
-        tx('rTotal', { v: total })
-      ].forEach((line) => {
-        const li = document.createElement('li');
-        li.textContent = line;
-        list.appendChild(li);
-      });
+      ['g5b','g6b','g7b','g8b'].forEach((id) => document.getElementById(id).textContent = tx('open'));
     }
 
     NDN.mountLang('langSwitch', applyLang);
