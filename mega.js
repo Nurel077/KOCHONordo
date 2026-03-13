@@ -242,7 +242,7 @@ class LanguageManager {
             welcome: 'Оюн дүйнөсүнө кош келиңиз!',
             description: 'Көчмөн Ордо — салттуу идеяларды жана заманбап оюн тажрыйбасын бириктирген платформа.',
             viewGames: 'Оюндарды көрүү',
-            highlightOne: '4 оюн',
+            highlightOne: '7 оюн',
             highlightTwo: '1 аккаунт',
             highlightThree: 'Тез старт',
             login: 'Кирүү',
@@ -312,6 +312,12 @@ class LanguageManager {
             kyzKuumaiOneDesc: 'Кыргыз элинин ат оюну. Ылдамдык жана реакция.',
             kyzKuumaiTwo: 'Кыз куумай (DGONI)',
             kyzKuumaiTwoDesc: 'Аркада форматындагы ылдам жарыш.',
+            tynchysPy: 'TynchysPy',
+            tynchysPyDesc: 'Браузердик оюн (тышкы шилтеме).',
+            richWheel: 'Rich Wheel',
+            richWheelDesc: 'Браузердик оюн (тышкы шилтеме).',
+            kyrgyzMemory: 'Kyrgyz Memory',
+            kyrgyzMemoryDesc: 'Эсте сактоо оюну (тышкы шилтеме).',
             step3Title: 'Ойной баштоо',
             step3Desc: 'Бир баскыч менен оюнга кирип кетиңиз.',
             fastDownload: 'Тез жүктөө',
@@ -368,6 +374,9 @@ class LanguageManager {
             kochmonLoading: 'Көчмөн Орноку ачылып жатат!',
             flappyLoading: 'Канаттуу куш ачылып жатат!',
             kyzKuumaiLoading: 'Кыз куумай ачылып жатат!',
+            tynchysPyLoading: 'TynchysPy ачылып жатат!',
+            richWheelLoading: 'Rich Wheel ачылып жатат!',
+            kyrgyzMemoryLoading: 'Kyrgyz Memory ачылып жатат!',
             gameLoading: 'Оюн ачылып жатат...',
             logoutConfirm: 'Аккаунттан чыгасызбы?',
             logoutConfirmText: 'Аккаунттан чыгууга ишенесизби?',
@@ -1789,6 +1798,21 @@ function showGameSelection() {
                     <h3>${languageManager.getText('kyzKuumaiTwo')}</h3>
                     <p>${languageManager.getText('kyzKuumaiTwoDesc')}</p>
                 </div>
+                <div class="game-card-modal" onclick="startGame('tynchyspy')">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h3>${languageManager.getText('tynchysPy')}</h3>
+                    <p>${languageManager.getText('tynchysPyDesc')}</p>
+                </div>
+                <div class="game-card-modal" onclick="startGame('richwheel')">
+                    <i class="fas fa-dice"></i>
+                    <h3>${languageManager.getText('richWheel')}</h3>
+                    <p>${languageManager.getText('richWheelDesc')}</p>
+                </div>
+                <div class="game-card-modal" onclick="startGame('kyrgyzmemory')">
+                    <i class="fas fa-brain"></i>
+                    <h3>${languageManager.getText('kyrgyzMemory')}</h3>
+                    <p>${languageManager.getText('kyrgyzMemoryDesc')}</p>
+                </div>
             </div>
         </div>
     `;
@@ -1830,14 +1854,20 @@ window.startGame = function(gameType) {
         kochmon: languageManager.getText('kochmonLoading'),
         flappy: languageManager.getText('flappyLoading'),
         kyz1: languageManager.getText('kyzKuumaiLoading'),
-        kyz2: languageManager.getText('kyzKuumaiLoading')
+        kyz2: languageManager.getText('kyzKuumaiLoading'),
+        tynchyspy: languageManager.getText('tynchysPyLoading'),
+        richwheel: languageManager.getText('richWheelLoading'),
+        kyrgyzmemory: languageManager.getText('kyrgyzMemoryLoading')
     };
     
     const gameLinks = {
         kochmon: 'https://nurel077.github.io/NDN_games/',
         flappy: 'https://nurel077.github.io/flappy_bird/',
         kyz1: 'https://tw1zzyy.github.io/kyzkuumai_project_iei/',
-        kyz2: 'https://dgoni0707.github.io/Kyz-Kuumai/'
+        kyz2: 'https://dgoni0707.github.io/Kyz-Kuumai/',
+        tynchyspy: 'https://tynchyspy.web.app/',
+        richwheel: 'https://rzn1926.github.io/Rich-Wheel/',
+        kyrgyzmemory: 'https://v0-kyrgyz-memory-website.vercel.app/'
     };
 
     if (!gameLinks[gameType]) {
@@ -1873,7 +1903,7 @@ window.startGame = function(gameType) {
     document.body.appendChild(message);
     
     // Открываем игру в новой вкладке или в текущей странице
-    const externalGames = ['kochmon', 'flappy', 'kyz1', 'kyz2'];
+    const externalGames = ['kochmon', 'flappy', 'kyz1', 'kyz2', 'tynchyspy', 'richwheel', 'kyrgyzmemory'];
     const isExternal = externalGames.includes(gameType);
     const externalWindow = isExternal ? window.open('', '_blank') : null;
 

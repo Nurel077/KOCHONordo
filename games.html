@@ -48,6 +48,24 @@
         <p id="g8d">Аркада форматындагы ылдам жарыш.</p>
         <a class="btn alt" href="https://dgoni0707.github.io/Kyz-Kuumai/" target="_blank" rel="noopener noreferrer" id="g8b">Ачуу</a>
       </article>
+
+      <article class="card">
+        <h3 id="g9t">TynchysPy</h3>
+        <p id="g9d">Браузердик оюн (тышкы шилтеме).</p>
+        <a class="btn alt" href="https://tynchyspy.web.app/" target="_blank" rel="noopener noreferrer" id="g9b">Ачуу</a>
+      </article>
+
+      <article class="card">
+        <h3 id="g10t">Rich Wheel</h3>
+        <p id="g10d">Браузердик оюн (тышкы шилтеме).</p>
+        <a class="btn alt" href="https://rzn1926.github.io/Rich-Wheel/" target="_blank" rel="noopener noreferrer" id="g10b">Ачуу</a>
+      </article>
+
+      <article class="card">
+        <h3 id="g11t">Kyrgyz Memory</h3>
+        <p id="g11d">Эсте сактоо оюну (тышкы шилтеме).</p>
+        <a class="btn alt" href="https://v0-kyrgyz-memory-website.vercel.app/" target="_blank" rel="noopener noreferrer" id="g11b">Ачуу</a>
+      </article>
     </section>
   </main>
 
@@ -61,6 +79,9 @@
         g6t: 'Канаттуу куш', g6d: 'Классикалык браузер аркадасы (тышкы шилтеме).',
         g7t: 'Кыз куумай (IEI)', g7d: 'Салттуу ат оюну, ылдамдык жана реакция.',
         g8t: 'Кыз куумай (DGONI)', g8d: 'Аркада форматындагы ылдам жарыш.',
+        g9t: 'TynchysPy', g9d: 'Браузердик оюн (тышкы шилтеме).',
+        g10t: 'Rich Wheel', g10d: 'Браузердик оюн (тышкы шилтеме).',
+        g11t: 'Kyrgyz Memory', g11d: 'Эсте сактоо оюну (тышкы шилтеме).',
         open: 'Ачуу'
       },
       ru: {
@@ -70,6 +91,9 @@
         g6t: 'Канаттуу куш', g6d: 'Классическая браузерная аркада (внешняя ссылка).',
         g7t: 'Кыз куумай (IEI)', g7d: 'Традиционная игра на лошадях, скорость и реакция.',
         g8t: 'Кыз куумай (DGONI)', g8d: 'Аркадный формат скоростной гонки.',
+        g9t: 'TynchysPy', g9d: 'Браузерная игра (внешняя ссылка).',
+        g10t: 'Rich Wheel', g10d: 'Браузерная игра (внешняя ссылка).',
+        g11t: 'Kyrgyz Memory', g11d: 'Игра на память (внешняя ссылка).',
         open: 'Открыть'
       },
       en: {
@@ -79,6 +103,9 @@
         g6t: 'Flappy Bird', g6d: 'Classic browser arcade (external link).',
         g7t: 'Kyz Kuumai (IEI)', g7d: 'Traditional horse game focused on speed and reaction.',
         g8t: 'Kyz Kuumai (DGONI)', g8d: 'Arcade-style fast race.',
+        g9t: 'TynchysPy', g9d: 'Browser game (external link).',
+        g10t: 'Rich Wheel', g10d: 'Browser game (external link).',
+        g11t: 'Kyrgyz Memory', g11d: 'Memory game (external link).',
         open: 'Open'
       }
     };
@@ -86,9 +113,9 @@
     function tx(key, params) { return NDN.text(T, key, params); }
 
     function applyLang() {
-      const ids = ['navHome','navAbout','navContacts','heroTitle','heroDesc','g5t','g5d','g6t','g6d','g7t','g7d','g8t','g8d'];
+      const ids = ['navHome','navAbout','navContacts','heroTitle','heroDesc','g5t','g5d','g6t','g6d','g7t','g7d','g8t','g8d','g9t','g9d','g10t','g10d','g11t','g11d'];
       ids.forEach((id) => document.getElementById(id).textContent = tx(id));
-      ['g5b','g6b','g7b','g8b'].forEach((id) => document.getElementById(id).textContent = tx('open'));
+      ['g5b','g6b','g7b','g8b','g9b','g10b','g11b'].forEach((id) => document.getElementById(id).textContent = tx('open'));
     }
 
     NDN.mountLang('langSwitch', applyLang);
