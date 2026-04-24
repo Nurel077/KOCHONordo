@@ -7,11 +7,11 @@
     --accent: #c79a42;
     --accent-soft: #f5d59a;
     --text-main: #2f2018;
-    --text-muted: #6d4f3f;
+    --text-muted: #5a422f;
     --paper: #f8f1e4;
     --paper-soft: #fbf6ee;
-    --line: rgba(140, 63, 33, 0.22);
-    --card: rgba(255, 250, 241, 0.94);
+    --line: rgba(140, 63, 33, 0.24);
+    --card: rgba(255, 250, 241, 0.98);
     --shadow-sm: 0 2px 10px rgba(45, 25, 14, 0.12);
     --shadow-md: 0 12px 30px rgba(45, 25, 14, 0.14);
     --shadow-lg: 0 24px 48px rgba(45, 25, 14, 0.18);
@@ -239,9 +239,19 @@ a:focus-visible {
 }
 
 .hero-description {
-    color: var(--text-muted);
+    color: #5a422f;
     font-size: 1.02rem;
     margin-bottom: 1.1rem;
+}
+
+.page-hero p,
+.section-subtitle,
+.hero-description,
+.game-head p,
+.info-card p,
+.contact-card p,
+.profile-info p {
+    color: #5a422f;
 }
 
 .hero-highlights {
@@ -886,14 +896,14 @@ a:focus-visible {
 }
 
 .footer-section p {
-    color: rgba(247, 232, 210, 0.85);
+    color: rgba(247, 232, 210, 0.95);
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(247, 232, 210, 0.2);
+    border-top: 1px solid rgba(247, 232, 210, 0.24);
     text-align: center;
     padding: 0.85rem 1rem;
-    color: rgba(247, 232, 210, 0.72);
+    color: rgba(247, 232, 210, 0.82);
     font-size: 0.9rem;
 }
 
