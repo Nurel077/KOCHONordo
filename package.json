@@ -2,13 +2,15 @@
   "name": "kochmon-ordo",
   "version": "1.0.0",
   "private": true,
-  "description": "Kochmon Ordo static website prepared for Railway deploy",
+  "description": "Kochmon Ordo static website prepared for production deploy",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:prod": "node server.js",
+    "check": "node -e \"const fs=require('fs'); ['index.html','server.js','mega.css','mega.js'].forEach(f=>{if(!fs.existsSync(f)){throw new Error('Missing required file: '+f)}}); console.log('Predeploy check passed')\""
   },
   "engines": {
-    "node": ">=18"
-  }
+    "node": ">=18 <23"
+  },
+  "packageManager": "npm@10"
 }
-
