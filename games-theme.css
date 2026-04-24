@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --paper: #f7f4ee;
   --ink: #17222b;
   --line: #d8cbb6;
@@ -15,9 +15,10 @@ body {
   font-family: "Manrope", "Segoe UI", sans-serif;
   color: var(--ink);
   background:
-    radial-gradient(circle at 12% 8%, rgba(31, 93, 107, 0.12), transparent 38%),
-    radial-gradient(circle at 90% 70%, rgba(217, 135, 43, 0.16), transparent 42%),
-    linear-gradient(180deg, #f6f1e8 0%, #eee2cf 100%);
+    linear-gradient(160deg, rgba(16, 10, 8, 0.72), rgba(34, 18, 14, 0.62)),
+    radial-gradient(circle at 50% 15%, rgba(145, 70, 45, 0.18), transparent 42%),
+    url('assets/yurt-bg.jpg') center/cover no-repeat;
+  background-color: #221512;
   min-height: 100vh;
 }
 
@@ -324,106 +325,4 @@ button:focus-visible,
 @media (max-width: 700px) {
   .nav a { font-size: .85rem; }
   .board { grid-template-columns: repeat(3, minmax(0,1fr)); }
-}
-
-/* Ornamental Theme Override */
-:root {
-  --paper: #2a2a2a;
-  --ink: #f4e4e4;
-  --line: rgba(255, 125, 125, 0.3);
-  --card: rgba(68, 68, 68, 0.9);
-  --accent: #b50021;
-  --accent-2: #e04157;
-  --accent-3: #8a8a8a;
-}
-
-body {
-  color: var(--ink);
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08) 0, rgba(255, 255, 255, 0) 38%),
-    radial-gradient(circle at 80% 35%, rgba(255, 255, 255, 0.07) 0, rgba(255, 255, 255, 0) 35%),
-    radial-gradient(circle at 50% 80%, rgba(255, 255, 255, 0.06) 0, rgba(255, 255, 255, 0) 40%),
-    repeating-radial-gradient(circle at 0 0, #8f0015 0 18px, #6a000f 18px 34px, #505050 34px 46px, #2f2f2f 46px 58px),
-    linear-gradient(145deg, #57000c 0%, #8f0015 45%, #4e4e4e 100%);
-  background-attachment: fixed;
-}
-
-.shell,
-.topbar,
-.hero,
-.card,
-.rating,
-.panel,
-.leaderboard {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(140deg, rgba(120, 0, 20, 0.82), rgba(73, 73, 73, 0.86));
-  border-color: var(--line);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
-}
-
-.shell::before,
-.topbar::before,
-.hero::before,
-.card::before,
-.panel::before,
-.leaderboard::before {
-  content: '';
-  position: absolute;
-  inset: -30% -15%;
-  opacity: 0.2;
-  pointer-events: none;
-  background-size: 120px 120px;
-  background-image:
-    radial-gradient(circle at 30% 30%, transparent 16px, #ff364f 16px 21px, transparent 21px),
-    radial-gradient(circle at 70% 70%, transparent 16px, #a1a1a1 16px 21px, transparent 21px),
-    conic-gradient(from 0deg at 50% 50%, transparent 0 22%, #760013 22% 28%, transparent 28% 50%, #4c4c4c 50% 56%, transparent 56% 78%, #760013 78% 84%, transparent 84%);
-}
-
-.brand,
-.hero h1,
-.card h3,
-.leaderboard h3 {
-  color: #ffd3d8;
-}
-
-.hero p,
-.card p,
-.note,
-.leaderboard li {
-  color: #f2d0d0;
-}
-
-.nav a,
-.lang-switch button,
-.pit,
-.stat,
-.meter {
-  background: rgba(45, 45, 45, 0.82);
-  border-color: var(--line);
-  color: #f4e4e4;
-}
-
-.nav a:hover,
-.lang-switch button:hover {
-  border-color: #e04157;
-  background: rgba(224, 65, 87, 0.25);
-}
-
-.lang-switch button.active {
-  background: #b50021;
-  border-color: #b50021;
-}
-
-.btn.main,
-.btn.alt,
-button,
-button.alt {
-  background: linear-gradient(135deg, #cc1634 0%, #8a8a8a 100%);
-  color: #fff;
-}
-
-canvas {
-  background: rgba(28, 28, 28, 0.95);
-  border-color: var(--line);
 }
