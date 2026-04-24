@@ -1,2369 +1,911 @@
-﻿// Элементы DOM
-const loginBtn = document.getElementById('loginBtn');
-const playBtn = document.getElementById('playBtn');
-const profileBtn = document.getElementById('profileBtn');
-const userMenuBtn = document.getElementById('userMenuBtn');
-const authForms = document.getElementById('authForms');
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const loginTab = document.getElementById('loginTab');
-const registerTab = document.getElementById('registerTab');
-const loginFormElement = document.getElementById('loginFormElement');
-const regForm = document.getElementById('regForm');
-const cancelLogin = document.getElementById('cancelLogin');
-const cancelReg = document.getElementById('cancelReg');
-const ctaLoginBtn = document.getElementById('ctaLoginBtn');
-const userMenu = document.getElementById('userMenu');
-const userName = document.getElementById('userName');
-const userEmail = document.getElementById('userEmail');
-const logoutBtn = document.getElementById('logoutBtn');
+(() => {
+    const STORAGE = {
+        users: "kochmon_ordo_users_v2",
+        session: "kochmon_ordo_session_v2",
+        settings: "kochmon_ordo_settings_v2",
+    };
 
-// Элементы профиля
-const mainPage = document.getElementById('mainPage');
-const profilePage = document.getElementById('profilePage');
-const backToMainBtn = document.getElementById('backToMainBtn');
-const profileTab = document.getElementById('profileTab');
-const settingsTab = document.getElementById('settingsTab');
-const accountTab = document.getElementById('accountTab');
-const profileSection = document.getElementById('profileSection');
-const settingsSection = document.getElementById('settingsSection');
-const accountSection = document.getElementById('accountSection');
-const profileUsername = document.getElementById('profileUsername');
-const profileEmail = document.getElementById('profileEmail');
-const profileDate = document.getElementById('profileDate');
-const daysRegistered = document.getElementById('daysRegistered');
-const gamesPlayed = document.getElementById('gamesPlayed');
-const lastLogin = document.getElementById('lastLogin');
-const profileLevel = document.getElementById('profileLevel');
-const profileXP = document.getElementById('profileXP');
-const profileRankTitle = document.getElementById('profileRankTitle');
-const profileXPFill = document.getElementById('profileXPFill');
-const profileAchievements = document.getElementById('profileAchievements');
-const changeUsernameBtn = document.getElementById('changeUsernameBtn');
-const changePasswordBtn = document.getElementById('changePasswordBtn');
-const exportDataBtn = document.getElementById('exportDataBtn');
-const logoutAccountBtn = document.getElementById('logoutAccountBtn');
-const deleteAccountMenuBtn = document.getElementById('deleteAccountMenuBtn');
-const deleteAccountDangerBtn = document.getElementById('deleteAccountDangerBtn');
+    const ui = {
+        loginBtn: document.getElementById("loginBtn"),
+        playBtn: document.getElementById("playBtn"),
+        profileBtn: document.getElementById("profileBtn"),
+        userMenuBtn: document.getElementById("userMenuBtn"),
+        userMenu: document.getElementById("userMenu"),
+        userName: document.getElementById("userName"),
+        userEmail: document.getElementById("userEmail"),
+        logoutBtn: document.getElementById("logoutBtn"),
+        deleteAccountMenuBtn: document.getElementById("deleteAccountMenuBtn"),
+        authForms: document.getElementById("authForms"),
+        loginTab: document.getElementById("loginTab"),
+        registerTab: document.getElementById("registerTab"),
+        loginForm: document.getElementById("loginForm"),
+        registerForm: document.getElementById("registerForm"),
+        loginFormElement: document.getElementById("loginFormElement"),
+        regForm: document.getElementById("regForm"),
+        cancelLogin: document.getElementById("cancelLogin"),
+        cancelReg: document.getElementById("cancelReg"),
+        ctaLoginBtn: document.getElementById("ctaLoginBtn"),
+        mainPage: document.getElementById("mainPage"),
+        profilePage: document.getElementById("profilePage"),
+        backToMainBtn: document.getElementById("backToMainBtn"),
+        profileTab: document.getElementById("profileTab"),
+        settingsTab: document.getElementById("settingsTab"),
+        accountTab: document.getElementById("accountTab"),
+        profileSection: document.getElementById("profileSection"),
+        settingsSection: document.getElementById("settingsSection"),
+        accountSection: document.getElementById("accountSection"),
+        profileUsername: document.getElementById("profileUsername"),
+        profileEmail: document.getElementById("profileEmail"),
+        profileDate: document.getElementById("profileDate"),
+        daysRegistered: document.getElementById("daysRegistered"),
+        gamesPlayed: document.getElementById("gamesPlayed"),
+        lastLogin: document.getElementById("lastLogin"),
+        profileLevel: document.getElementById("profileLevel"),
+        profileXP: document.getElementById("profileXP"),
+        profileRankTitle: document.getElementById("profileRankTitle"),
+        profileXPFill: document.getElementById("profileXPFill"),
+        profileAchievements: document.getElementById("profileAchievements"),
+        changeUsernameBtn: document.getElementById("changeUsernameBtn"),
+        changePasswordBtn: document.getElementById("changePasswordBtn"),
+        exportDataBtn: document.getElementById("exportDataBtn"),
+        logoutAccountBtn: document.getElementById("logoutAccountBtn"),
+        deleteAccountDangerBtn: document.getElementById("deleteAccountDangerBtn"),
+        strengthFill: document.getElementById("strengthFill"),
+        strengthText: document.getElementById("strengthText"),
+        passwordRequirements: document.getElementById("passwordRequirements"),
+        passwordMatch: document.getElementById("passwordMatch"),
+    };
 
-const STORAGE_PREFIX = 'kochmonOrdo_';
-const LEGACY_STORAGE_PREFIX = 'ndnStore_';
+    const text = {
+        ky: {
+            navGames: "Оюндар",
+            navAbout: "Биз жөнүндө",
+            navContacts: "Байланыш",
+            heroBadge: "Кыргыз оюн платформасы",
+            heroTitle: "Оюн дүйнөсүнө кош келиңиз!",
+            heroDescription: "Көчмөн Ордо — салттуу идеяларды жана заманбап оюн тажрыйбасын бириктирген платформа.",
+            highlightOne: "7 оюн",
+            highlightTwo: "1 аккаунт",
+            highlightThree: "Тез старт",
+            loginBtn: "Кирүү",
+            playBtn: "Ойной баштоо",
+            gamesBtn: "Оюндарды көрүү",
+            stepsTitle: "Кандай иштейт",
+            stepsDesc: "Үч жөнөкөй кадам жана сиз оюнга даярсыз.",
+            step1Title: "Катталуу",
+            step1Desc: "Бир мүнөттө аккаунт түзүп, профилиңизди сактайсыз.",
+            step2Title: "Оюн тандоо",
+            step2Desc: "Көчмөн Орноку, Канаттуу куш же Кыз куумайды тандаңыз.",
+            step3Title: "Ойной баштоо",
+            step3Desc: "Бир баскыч менен оюнга кирип кетиңиз.",
+            ctaTitle: "Даярсызбы? Оюнга кирели!",
+            ctaDesc: "Катталып, сүйүктүү оюнуңузду тандап бүгүн ойной баштаңыз.",
+            ctaLoginBtn: "Кирүү",
+            loginFormTitle: "Аккаунтка кирүү",
+            registerFormTitle: "Катталуу",
+            registerTab: "Катталуу",
+            loginTab: "Кирүү",
+            profileBtn: "Профиль",
+            logout: "Чыгуу",
+            deleteAccount: "Аккаунтту өчүрүү",
+            today: "Бүгүн",
+            deleted: "Аккаунт өчүрүлдү.",
+            wrongPassword: "Сырсөз туура эмес.",
+            userNotFound: "Мындай аккаунт табылган жок.",
+            loginSuccess: "Кош келиңиз!",
+            registerSuccess: "Катталуу ийгиликтүү аяктады.",
+            logoutSuccess: "Аккаунттан чыктыңыз.",
+            passwordMismatch: "Сырсөздөр дал келбеди.",
+            weakPassword: "Сырсөз күчсүз. Баш тамга, кичине тамга, сан жана белгини кошуңуз.",
+            emailInvalid: "Туура email киргизиңиз.",
+            usernameInvalid: "Колдонуучу аты кеминде 3 белгиден болушу керек.",
+            exists: "Бул email менен аккаунт мурунтан бар.",
+            changedName: "Колдонуучу аты жаңыртылды.",
+            changedPassword: "Сырсөз жаңыртылды.",
+            exported: "Маалымат экспорттолду.",
+            chooseLang: "Интерфейс тили",
+            chooseTheme: "Тема",
+            level: "Деңгээл",
+            rank: "Даража",
+            nomad: "Көчмөн",
+            hunter: "Мерген",
+            rider: "Чабандес",
+            leader: "Сардар",
+            legend: "Легенда",
+        },
+        ru: {
+            navGames: "Игры",
+            navAbout: "О нас",
+            navContacts: "Контакты",
+            heroBadge: "Кыргызская игровая платформа",
+            heroTitle: "Добро пожаловать в мир игр!",
+            heroDescription: "Кочмон Ордо объединяет национальные идеи и современный игровой опыт.",
+            highlightOne: "7 игр",
+            highlightTwo: "1 аккаунт",
+            highlightThree: "Быстрый старт",
+            loginBtn: "Войти",
+            playBtn: "Начать игру",
+            gamesBtn: "Смотреть игры",
+            stepsTitle: "Как это работает",
+            stepsDesc: "Три простых шага и вы готовы к игре.",
+            step1Title: "Регистрация",
+            step1Desc: "Создайте аккаунт за минуту и сохраните свой профиль.",
+            step2Title: "Выбор игры",
+            step2Desc: "Выберите Кочмон Орноку, Канаттуу куш или Кыз куумай.",
+            step3Title: "Начать",
+            step3Desc: "Откройте игру одним нажатием.",
+            ctaTitle: "Готовы? Начинаем игру!",
+            ctaDesc: "Зарегистрируйтесь и начните играть уже сегодня.",
+            ctaLoginBtn: "Войти",
+            loginFormTitle: "Вход в аккаунт",
+            registerFormTitle: "Регистрация",
+            registerTab: "Регистрация",
+            loginTab: "Вход",
+            profileBtn: "Профиль",
+            logout: "Выйти",
+            deleteAccount: "Удалить аккаунт",
+            today: "Сегодня",
+            deleted: "Аккаунт удален.",
+            wrongPassword: "Неверный пароль.",
+            userNotFound: "Пользователь не найден.",
+            loginSuccess: "С возвращением!",
+            registerSuccess: "Регистрация успешно завершена.",
+            logoutSuccess: "Вы вышли из аккаунта.",
+            passwordMismatch: "Пароли не совпадают.",
+            weakPassword: "Слабый пароль. Добавьте заглавную, строчную, цифру и символ.",
+            emailInvalid: "Введите корректный email.",
+            usernameInvalid: "Имя пользователя должно быть не короче 3 символов.",
+            exists: "Аккаунт с таким email уже существует.",
+            changedName: "Имя пользователя обновлено.",
+            changedPassword: "Пароль обновлен.",
+            exported: "Данные экспортированы.",
+            chooseLang: "Язык интерфейса",
+            chooseTheme: "Тема",
+            level: "Уровень",
+            rank: "Ранг",
+            nomad: "Кочевник",
+            hunter: "Охотник",
+            rider: "Наездник",
+            leader: "Лидер",
+            legend: "Легенда",
+        },
+        en: {
+            navGames: "Games",
+            navAbout: "About",
+            navContacts: "Contacts",
+            heroBadge: "Kyrgyz gaming platform",
+            heroTitle: "Welcome to the game world!",
+            heroDescription: "Kochmon Ordo blends traditional spirit with modern gameplay.",
+            highlightOne: "7 games",
+            highlightTwo: "1 account",
+            highlightThree: "Fast start",
+            loginBtn: "Sign in",
+            playBtn: "Play now",
+            gamesBtn: "View games",
+            stepsTitle: "How it works",
+            stepsDesc: "Three quick steps and you are ready.",
+            step1Title: "Sign up",
+            step1Desc: "Create an account in a minute and keep your profile.",
+            step2Title: "Choose game",
+            step2Desc: "Pick Kochmon Ornoku, Kanattuu Kush or Kyz Kuumai.",
+            step3Title: "Start",
+            step3Desc: "Open a game in one click.",
+            ctaTitle: "Ready? Let's play!",
+            ctaDesc: "Create account and start playing today.",
+            ctaLoginBtn: "Sign in",
+            loginFormTitle: "Sign in",
+            registerFormTitle: "Create account",
+            registerTab: "Register",
+            loginTab: "Sign in",
+            profileBtn: "Profile",
+            logout: "Logout",
+            deleteAccount: "Delete account",
+            today: "Today",
+            deleted: "Account deleted.",
+            wrongPassword: "Incorrect password.",
+            userNotFound: "User not found.",
+            loginSuccess: "Welcome back!",
+            registerSuccess: "Registration completed.",
+            logoutSuccess: "Logged out.",
+            passwordMismatch: "Passwords do not match.",
+            weakPassword: "Weak password. Add uppercase, lowercase, number and special symbol.",
+            emailInvalid: "Enter a valid email.",
+            usernameInvalid: "Username must be at least 3 characters.",
+            exists: "Email already exists.",
+            changedName: "Username updated.",
+            changedPassword: "Password updated.",
+            exported: "Data exported.",
+            chooseLang: "Interface language",
+            chooseTheme: "Theme",
+            level: "Level",
+            rank: "Rank",
+            nomad: "Nomad",
+            hunter: "Hunter",
+            rider: "Rider",
+            leader: "Leader",
+            legend: "Legend",
+        },
+    };
 
-function getStorageValue(key) {
-    const newKey = `${STORAGE_PREFIX}${key}`;
-    const legacyKey = `${LEGACY_STORAGE_PREFIX}${key}`;
-    const newValue = localStorage.getItem(newKey);
+    const defaults = {
+        settings: {
+            language: "ky",
+            theme: "light",
+            notifications: {
+                email: true,
+                game: true,
+                news: true,
+            },
+        },
+    };
 
-    if (newValue !== null) {
-        return newValue;
+    function byId(id) {
+        return document.getElementById(id);
     }
 
-    const legacyValue = localStorage.getItem(legacyKey);
-    if (legacyValue !== null) {
-        localStorage.setItem(newKey, legacyValue);
-        return legacyValue;
+    function safeBind(el, eventName, handler) {
+        if (el) el.addEventListener(eventName, handler);
     }
 
-    return null;
-}
-
-function setStorageValue(key, value) {
-    localStorage.setItem(`${STORAGE_PREFIX}${key}`, value);
-}
-
-function bindEvent(element, event, handler) {
-    if (element) {
-        element.addEventListener(event, handler);
-    }
-}
-
-// Система временного storage
-class TempStorage {
-    constructor() {
-        this.storageKey = `${STORAGE_PREFIX}tempData`;
-        this.legacyStorageKey = `${LEGACY_STORAGE_PREFIX}tempData`;
-        this.data = this.loadData();
-    }
-    
-    loadData() {
+    function readJson(key, fallback) {
         try {
-            const migrated = this.migrateLegacyData();
-            if (migrated) {
-                return migrated;
-            }
-
-            const saved = localStorage.getItem(this.storageKey);
-            return saved ? JSON.parse(saved) : {
-                users: [],
-                sessions: [],
-                games: [],
-                settings: {},
-                lastUpdated: Date.now()
-            };
-        } catch (error) {
-            console.error('Ошибка загрузки данных:', error);
-            return {
-                users: [],
-                sessions: [],
-                games: [],
-                settings: {},
-                lastUpdated: Date.now()
-            };
+            const raw = localStorage.getItem(key);
+            if (!raw) return fallback;
+            return JSON.parse(raw);
+        } catch (e) {
+            return fallback;
         }
     }
-    
-    migrateLegacyData() {
-        const currentData = localStorage.getItem(this.storageKey);
-        if (currentData) {
-            return JSON.parse(currentData);
-        }
 
-        const legacyData = localStorage.getItem(this.legacyStorageKey);
-        if (!legacyData) {
+    function writeJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function hashPassword(password) {
+        let hash = 0;
+        for (let i = 0; i < password.length; i += 1) {
+            hash = ((hash << 5) - hash) + password.charCodeAt(i);
+            hash |= 0;
+        }
+        return String(hash);
+    }
+
+    function getUsers() {
+        return readJson(STORAGE.users, []);
+    }
+
+    function saveUsers(users) {
+        writeJson(STORAGE.users, users);
+    }
+
+    function getSettings() {
+        const current = readJson(STORAGE.settings, defaults.settings);
+        return {
+            ...defaults.settings,
+            ...current,
+            notifications: {
+                ...defaults.settings.notifications,
+                ...(current.notifications || {}),
+            },
+        };
+    }
+
+    function saveSettings(settings) {
+        writeJson(STORAGE.settings, settings);
+    }
+
+    function getSession() {
+        const session = readJson(STORAGE.session, null);
+        if (!session) return null;
+        if (!session.expiresAt || Date.now() > session.expiresAt) {
+            localStorage.removeItem(STORAGE.session);
             return null;
         }
-
-        localStorage.setItem(this.storageKey, legacyData);
-        return JSON.parse(legacyData);
+        return session;
     }
 
-    saveData() {
+    function setSession(userId, rememberMe) {
+        const ttl = rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+        writeJson(STORAGE.session, {
+            userId,
+            expiresAt: Date.now() + ttl,
+        });
+    }
+
+    function clearSession() {
+        localStorage.removeItem(STORAGE.session);
+    }
+
+    function currentLanguage() {
+        const settings = getSettings();
+        return text[settings.language] ? settings.language : "ky";
+    }
+
+    function t(key) {
+        const lang = currentLanguage();
+        return text[lang][key] || text.ky[key] || key;
+    }
+
+    function showToast(message, isError = false) {
+        const toast = document.createElement("div");
+        toast.textContent = message;
+        toast.style.position = "fixed";
+        toast.style.right = "18px";
+        toast.style.bottom = "18px";
+        toast.style.padding = "10px 14px";
+        toast.style.borderRadius = "10px";
+        toast.style.zIndex = "9999";
+        toast.style.color = "#fff";
+        toast.style.fontWeight = "700";
+        toast.style.background = isError ? "#b84131" : "#2f6b52";
+        toast.style.boxShadow = "0 8px 24px rgba(0,0,0,0.2)";
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2500);
+    }
+
+    function validEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function getCurrentUser() {
+        const session = getSession();
+        if (!session) return null;
+        const users = getUsers();
+        return users.find((u) => u.id === session.userId && !u.deleted) || null;
+    }
+
+    function hideAuthForms() {
+        if (ui.authForms) ui.authForms.style.display = "none";
+    }
+
+    function showAuthForms(tab = "login") {
+        if (!ui.authForms) return;
+        ui.authForms.style.display = "block";
+        const isLogin = tab === "login";
+        if (ui.loginTab) ui.loginTab.classList.toggle("active", isLogin);
+        if (ui.registerTab) ui.registerTab.classList.toggle("active", !isLogin);
+        if (ui.loginForm) ui.loginForm.classList.toggle("active", isLogin);
+        if (ui.registerForm) ui.registerForm.classList.toggle("active", !isLogin);
+    }
+
+    function hideUserMenu() {
+        if (ui.userMenu) ui.userMenu.style.display = "none";
+    }
+
+    function updateAuthUI() {
+        const user = getCurrentUser();
+        const loggedIn = Boolean(user);
+
+        if (ui.loginBtn) ui.loginBtn.style.display = loggedIn ? "none" : "inline-flex";
+        if (ui.playBtn) ui.playBtn.style.display = loggedIn ? "inline-flex" : "none";
+        if (ui.profileBtn) ui.profileBtn.style.display = loggedIn ? "inline-flex" : "none";
+        if (ui.userMenuBtn) ui.userMenuBtn.style.display = loggedIn ? "inline-flex" : "none";
+
+        if (ui.ctaLoginBtn) {
+            if (loggedIn) {
+                ui.ctaLoginBtn.innerHTML = `<i class="fas fa-user"></i> ${t("profileBtn")}`;
+            } else {
+                ui.ctaLoginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${t("ctaLoginBtn")}`;
+            }
+        }
+
+        if (!loggedIn) {
+            hideUserMenu();
+            return;
+        }
+
+        if (ui.userName) ui.userName.textContent = user.username;
+        if (ui.userEmail) ui.userEmail.textContent = user.email;
+        updateProfileData(user);
+    }
+
+    function dateString(iso) {
         try {
-            this.data.lastUpdated = Date.now();
-            localStorage.setItem(this.storageKey, JSON.stringify(this.data));
-        } catch (error) {
-            console.error('Ошибка сохранения данных:', error);
+            return new Date(iso).toLocaleDateString("ky-KG");
+        } catch (e) {
+            return "-";
         }
     }
-    
-    addUser(userData) {
+
+    function daysSince(iso) {
+        const start = new Date(iso).getTime();
+        const delta = Date.now() - start;
+        return Math.max(1, Math.floor(delta / (24 * 60 * 60 * 1000)));
+    }
+
+    function getRank(level) {
+        if (level >= 16) return t("legend");
+        if (level >= 11) return t("leader");
+        if (level >= 7) return t("rider");
+        if (level >= 4) return t("hunter");
+        return t("nomad");
+    }
+
+    function achievements(user) {
+        const list = [];
+        if (user.gamesPlayed >= 1) list.push("Алгачкы оюн");
+        if (user.gamesPlayed >= 10) list.push("Тажрыйбалуу оюнчу");
+        if (daysSince(user.createdAt) >= 7) list.push("Бир жума командада");
+        if (daysSince(user.createdAt) >= 30) list.push("Туруктуу мүчө");
+        return list;
+    }
+
+    function updateProfileData(user) {
+        if (!user) return;
+        const days = daysSince(user.createdAt);
+        const gamesPlayed = Number(user.gamesPlayed || 0);
+        const xp = gamesPlayed * 25 + days * 2;
+        const level = Math.max(1, Math.floor(xp / 100) + 1);
+        const xpInLevel = xp % 100;
+
+        if (ui.profileUsername) ui.profileUsername.textContent = user.username;
+        if (ui.profileEmail) ui.profileEmail.textContent = user.email;
+        if (ui.profileDate) ui.profileDate.textContent = `Катталган: ${dateString(user.createdAt)}`;
+        if (ui.daysRegistered) ui.daysRegistered.textContent = String(days);
+        if (ui.gamesPlayed) ui.gamesPlayed.textContent = String(gamesPlayed);
+        if (ui.lastLogin) ui.lastLogin.textContent = user.lastLogin ? dateString(user.lastLogin) : t("today");
+        if (ui.profileLevel) ui.profileLevel.textContent = `${t("level")} ${level}`;
+        if (ui.profileXP) ui.profileXP.textContent = `${xp} XP`;
+        if (ui.profileRankTitle) ui.profileRankTitle.textContent = `${t("rank")}: ${getRank(level)}`;
+        if (ui.profileXPFill) ui.profileXPFill.style.width = `${xpInLevel}%`;
+
+        if (ui.profileAchievements) {
+            const items = achievements(user);
+            ui.profileAchievements.innerHTML = "";
+            if (items.length === 0) {
+                const span = document.createElement("span");
+                span.className = "badge-item";
+                span.textContent = "Азырынча жок";
+                ui.profileAchievements.appendChild(span);
+            } else {
+                items.forEach((item) => {
+                    const span = document.createElement("span");
+                    span.className = "badge-item unlocked";
+                    span.textContent = item;
+                    ui.profileAchievements.appendChild(span);
+                });
+            }
+        }
+    }
+
+    function updateLandingVisibility(showProfile) {
+        const sectionsToHide = document.querySelectorAll(".steps, .features, .cta-section");
+        if (ui.mainPage) ui.mainPage.style.display = showProfile ? "none" : "grid";
+        if (ui.profilePage) ui.profilePage.style.display = showProfile ? "block" : "none";
+        sectionsToHide.forEach((s) => {
+            s.style.display = showProfile ? "none" : "";
+        });
+    }
+
+    function openProfile() {
+        updateLandingVisibility(true);
+        openProfileTab("profile");
+        updateAuthUI();
+    }
+
+    function closeProfile() {
+        updateLandingVisibility(false);
+    }
+
+    function openProfileTab(tab) {
+        const map = {
+            profile: [ui.profileTab, ui.profileSection],
+            settings: [ui.settingsTab, ui.settingsSection],
+            account: [ui.accountTab, ui.accountSection],
+        };
+
+        ["profile", "settings", "account"].forEach((k) => {
+            const pair = map[k];
+            if (!pair[0] || !pair[1]) return;
+            pair[0].classList.toggle("active", k === tab);
+            pair[1].classList.toggle("active", k === tab);
+        });
+    }
+
+    function applyTheme() {
+        const settings = getSettings();
+        const root = document.documentElement;
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const activeTheme = settings.theme === "auto" ? (prefersDark ? "dark" : "light") : settings.theme;
+
+        root.classList.toggle("theme-dark", activeTheme === "dark");
+
+        document.querySelectorAll(".theme-btn").forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.theme === settings.theme);
+        });
+    }
+
+    function applyLanguage() {
+        const lang = currentLanguage();
+        const dict = text[lang] || text.ky;
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        if (navLinks[0]) navLinks[0].textContent = dict.navGames;
+        if (navLinks[1]) navLinks[1].textContent = dict.navAbout;
+        if (navLinks[2]) navLinks[2].textContent = dict.navContacts;
+
+        const mapped = [
+            ["heroBadge", "heroBadge"],
+            ["highlightOne", "highlightOne"],
+            ["highlightTwo", "highlightTwo"],
+            ["highlightThree", "highlightThree"],
+            ["stepsTitle", "stepsTitle"],
+            ["stepsDesc", "stepsDesc"],
+            ["step1Title", "step1Title"],
+            ["step1Desc", "step1Desc"],
+            ["step2Title", "step2Title"],
+            ["step2Desc", "step2Desc"],
+            ["step3Title", "step3Title"],
+            ["step3Desc", "step3Desc"],
+            ["ctaTitle", "ctaTitle"],
+            ["ctaDesc", "ctaDesc"],
+            ["loginFormTitle", "loginFormTitle"],
+            ["registerFormTitle", "registerFormTitle"],
+        ];
+
+        mapped.forEach(([id, key]) => {
+            const el = byId(id);
+            if (el) el.textContent = dict[key];
+        });
+
+        const heroTitle = document.querySelector(".hero-title");
+        if (heroTitle) heroTitle.textContent = dict.heroTitle;
+
+        const heroDescription = document.querySelector(".hero-description");
+        if (heroDescription) heroDescription.textContent = dict.heroDescription;
+
+        if (ui.loginBtn) ui.loginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${dict.loginBtn}`;
+        if (ui.playBtn) ui.playBtn.innerHTML = `<i class="fas fa-play"></i> ${dict.playBtn}`;
+
+        const gamesBtn = byId("gamesBtn");
+        if (gamesBtn) gamesBtn.innerHTML = `<i class="fas fa-gamepad"></i> ${dict.gamesBtn}`;
+
+        if (ui.loginTab) ui.loginTab.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${dict.loginTab}`;
+        if (ui.registerTab) ui.registerTab.innerHTML = `<i class="fas fa-user-plus"></i> ${dict.registerTab}`;
+        if (ui.profileBtn) ui.profileBtn.innerHTML = `<i class="fas fa-user-cog"></i> ${dict.profileBtn}`;
+        if (ui.logoutBtn) ui.logoutBtn.innerHTML = `<i class="fas fa-sign-out-alt"></i> ${dict.logout}`;
+        if (ui.deleteAccountMenuBtn) ui.deleteAccountMenuBtn.innerHTML = `<i class="fas fa-trash"></i> ${dict.deleteAccount}`;
+        if (ui.deleteAccountDangerBtn) ui.deleteAccountDangerBtn.innerHTML = `<i class="fas fa-trash"></i> ${dict.deleteAccount}`;
+        if (ui.ctaLoginBtn && !getCurrentUser()) ui.ctaLoginBtn.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${dict.ctaLoginBtn}`;
+
+        document.querySelectorAll(".language-btn").forEach((btn) => {
+            btn.classList.toggle("active", btn.dataset.lang === lang);
+        });
+    }
+
+    function scorePassword(password) {
+        let score = 0;
+        if (password.length >= 8) score += 1;
+        if (/[A-Z]/.test(password)) score += 1;
+        if (/[a-z]/.test(password)) score += 1;
+        if (/[0-9]/.test(password)) score += 1;
+        if (/[^A-Za-z0-9]/.test(password)) score += 1;
+        return score;
+    }
+
+    function updatePasswordMeter() {
+        const passwordInput = byId("password");
+        const confirmInput = byId("confirmPassword");
+        if (!passwordInput || !confirmInput) return;
+
+        const password = passwordInput.value;
+        const confirm = confirmInput.value;
+        const score = scorePassword(password);
+
+        if (ui.passwordRequirements) {
+            ui.passwordRequirements.classList.toggle("show", password.length > 0);
+        }
+
+        const requirementMap = {
+            "req-length": password.length >= 8,
+            "req-uppercase": /[A-Z]/.test(password),
+            "req-lowercase": /[a-z]/.test(password),
+            "req-number": /[0-9]/.test(password),
+            "req-special": /[^A-Za-z0-9]/.test(password),
+        };
+
+        Object.entries(requirementMap).forEach(([id, ok]) => {
+            const el = byId(id);
+            if (el) el.classList.toggle("valid", ok);
+        });
+
+        if (ui.strengthFill) {
+            const percent = Math.min(100, score * 20);
+            ui.strengthFill.style.width = `${percent}%`;
+            if (score <= 2) ui.strengthFill.style.background = "#b84131";
+            else if (score <= 3) ui.strengthFill.style.background = "#d38a1f";
+            else if (score <= 4) ui.strengthFill.style.background = "#2f6b52";
+            else ui.strengthFill.style.background = "#1f8f69";
+        }
+
+        if (ui.strengthText) {
+            const levels = ["", "Алсыз", "Орточо", "Жакшы", "Күчтүү", "Абдан күчтүү"];
+            ui.strengthText.textContent = password.length ? levels[score] : "Сырсөздү киргизиңиз";
+        }
+
+        if (ui.passwordMatch) {
+            if (!confirm.length) {
+                ui.passwordMatch.className = "password-match";
+                ui.passwordMatch.textContent = "";
+            } else if (password === confirm) {
+                ui.passwordMatch.className = "password-match show match";
+                ui.passwordMatch.textContent = "Сырсөздөр дал келди";
+            } else {
+                ui.passwordMatch.className = "password-match show no-match";
+                ui.passwordMatch.textContent = "Сырсөздөр дал келген жок";
+            }
+        }
+    }
+
+    function registerUser(event) {
+        event.preventDefault();
+        const username = (byId("username")?.value || "").trim();
+        const email = (byId("email")?.value || "").trim().toLowerCase();
+        const password = byId("password")?.value || "";
+        const confirm = byId("confirmPassword")?.value || "";
+
+        if (username.length < 3) return showToast(t("usernameInvalid"), true);
+        if (!validEmail(email)) return showToast(t("emailInvalid"), true);
+
+        if (password !== confirm) return showToast(t("passwordMismatch"), true);
+        if (scorePassword(password) < 4 || /\s/.test(password)) return showToast(t("weakPassword"), true);
+
+        const users = getUsers();
+        if (users.some((u) => u.email === email && !u.deleted)) return showToast(t("exists"), true);
+
+        const now = new Date().toISOString();
         const user = {
-            id: Date.now().toString(),
-            ...userData,
-            passwordHash: this.hashPassword(userData.password),
-            createdAt: new Date().toISOString(),
-            lastLogin: null,
-            isActive: true
+            id: String(Date.now()),
+            username,
+            email,
+            passwordHash: hashPassword(password),
+            createdAt: now,
+            lastLogin: now,
+            gamesPlayed: 0,
+            deleted: false,
         };
-        this.data.users.push(user);
-        this.saveData();
-        return user;
+
+        users.push(user);
+        saveUsers(users);
+        setSession(user.id, true);
+        if (ui.regForm) ui.regForm.reset();
+        updatePasswordMeter();
+        hideAuthForms();
+        updateAuthUI();
+        showToast(t("registerSuccess"));
     }
-    
-    findUserByEmail(email) {
-        return this.data.users.find(user => 
-            user.email.toLowerCase() === email.toLowerCase() && user.isActive
-        );
+
+    function loginUser(event) {
+        event.preventDefault();
+        const email = (byId("loginEmail")?.value || "").trim().toLowerCase();
+        const password = byId("loginPassword")?.value || "";
+        const remember = Boolean(byId("rememberMe")?.checked);
+
+        const users = getUsers();
+        const user = users.find((u) => u.email === email && !u.deleted);
+        if (!user) return showToast(t("userNotFound"), true);
+        if (user.passwordHash !== hashPassword(password)) return showToast(t("wrongPassword"), true);
+
+        user.lastLogin = new Date().toISOString();
+        saveUsers(users);
+        setSession(user.id, remember);
+        if (ui.loginFormElement) ui.loginFormElement.reset();
+        hideAuthForms();
+        updateAuthUI();
+        showToast(t("loginSuccess"));
     }
-    
-    updateUserLogin(email) {
-        const user = this.findUserByEmail(email);
+
+    function logoutUser() {
+        clearSession();
+        closeProfile();
+        hideAuthForms();
+        updateAuthUI();
+        showToast(t("logoutSuccess"));
+    }
+
+    function deleteCurrentUser() {
+        const user = getCurrentUser();
+        if (!user) return;
+        const ok = confirm("Аккаунтту өчүрөсүзбү? Бул аракет артка кайтарылбайт.");
+        if (!ok) return;
+
+        const users = getUsers();
+        const idx = users.findIndex((u) => u.id === user.id);
+        if (idx >= 0) {
+            users[idx].deleted = true;
+            saveUsers(users);
+        }
+
+        clearSession();
+        closeProfile();
+        hideAuthForms();
+        updateAuthUI();
+        showToast(t("deleted"));
+    }
+
+    function changeUsername() {
+        const user = getCurrentUser();
+        if (!user) return;
+        const next = prompt("Жаңы колдонуучу атын жазыңыз:", user.username);
+        if (!next) return;
+        const name = next.trim();
+        if (name.length < 3) return showToast(t("usernameInvalid"), true);
+
+        const users = getUsers();
+        const idx = users.findIndex((u) => u.id === user.id);
+        if (idx < 0) return;
+        users[idx].username = name;
+        saveUsers(users);
+        updateAuthUI();
+        showToast(t("changedName"));
+    }
+
+    function changePassword() {
+        const user = getCurrentUser();
+        if (!user) return;
+        const current = prompt("Учурдагы сырсөз:");
+        if (!current) return;
+        if (hashPassword(current) !== user.passwordHash) return showToast(t("wrongPassword"), true);
+
+        const next = prompt("Жаңы сырсөз:");
+        if (!next) return;
+        if (scorePassword(next) < 4 || /\s/.test(next)) return showToast(t("weakPassword"), true);
+
+        const users = getUsers();
+        const idx = users.findIndex((u) => u.id === user.id);
+        if (idx < 0) return;
+        users[idx].passwordHash = hashPassword(next);
+        saveUsers(users);
+        showToast(t("changedPassword"));
+    }
+
+    function exportUserData() {
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const payload = {
+            user: {
+                username: user.username,
+                email: user.email,
+                createdAt: user.createdAt,
+                lastLogin: user.lastLogin,
+                gamesPlayed: user.gamesPlayed || 0,
+            },
+            settings: getSettings(),
+            exportedAt: new Date().toISOString(),
+        };
+
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "kochmon-ordo-data.json";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast(t("exported"));
+    }
+
+    function applyNotificationSettingsToUI() {
+        const settings = getSettings();
+        const email = byId("emailNotifications");
+        const game = byId("gameNotifications");
+        const news = byId("newsNotifications");
+
+        if (email) email.checked = settings.notifications.email;
+        if (game) game.checked = settings.notifications.game;
+        if (news) news.checked = settings.notifications.news;
+    }
+
+    function saveNotificationsFromUI() {
+        const settings = getSettings();
+        const email = byId("emailNotifications");
+        const game = byId("gameNotifications");
+        const news = byId("newsNotifications");
+
+        settings.notifications.email = Boolean(email?.checked);
+        settings.notifications.game = Boolean(game?.checked);
+        settings.notifications.news = Boolean(news?.checked);
+        saveSettings(settings);
+    }
+
+    function trackPlayAndOpenGames() {
+        const user = getCurrentUser();
         if (user) {
-            user.lastLogin = new Date().toISOString();
-            this.saveData();
-        }
-        return user;
-    }
-    
-    deleteUser(email) {
-        const userIndex = this.data.users.findIndex(user => 
-            user.email.toLowerCase() === email.toLowerCase()
-        );
-        if (userIndex !== -1) {
-            this.data.users[userIndex].isActive = false;
-            this.saveData();
-            return true;
-        }
-        return false;
-    }
-    
-    addSession(userId, rememberMe = false) {
-        const session = {
-            id: Date.now().toString(),
-            userId: userId,
-            createdAt: new Date().toISOString(),
-            expiresAt: rememberMe ? 
-                new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() : // 30 дней
-                new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // 1 день
-            isActive: true
-        };
-        this.data.sessions.push(session);
-        this.saveData();
-        return session;
-    }
-    
-    validateSession(sessionId) {
-        const session = this.data.sessions.find(s => 
-            s.id === sessionId && s.isActive && new Date(s.expiresAt) > new Date()
-        );
-        return session;
-    }
-    
-    clearExpiredSessions() {
-        const now = new Date();
-        this.data.sessions = this.data.sessions.filter(session => 
-            session.isActive && new Date(session.expiresAt) > now
-        );
-        this.saveData();
-    }
-    
-    hashPassword(password) {
-        // Простая хеш-функция для демонстрации
-        let hash = 0;
-        for (let i = 0; i < password.length; i++) {
-            const char = password.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash;
-        }
-        return hash.toString();
-    }
-    
-    verifyPassword(password, hash) {
-        return this.hashPassword(password) === hash;
-    }
-    
-    getStorageInfo() {
-        return {
-            totalUsers: this.data.users.length,
-            activeUsers: this.data.users.filter(u => u.isActive).length,
-            totalSessions: this.data.sessions.length,
-            activeSessions: this.data.sessions.filter(s => s.isActive).length,
-            lastUpdated: new Date(this.data.lastUpdated).toLocaleString()
-        };
-    }
-}
-
-// Система мультиязычности
-class LanguageManager {
-    constructor() {
-        this.currentLanguage = getStorageValue('language') || 'ky';
-        const kyrgyzTranslations = {
-            heroBadge: 'Кыргыз оюн платформасы',
-            welcome: 'Оюн дүйнөсүнө кош келиңиз!',
-            description: 'Көчмөн Ордо — салттуу идеяларды жана заманбап оюн тажрыйбасын бириктирген платформа.',
-            viewGames: 'Оюндарды көрүү',
-            highlightOne: '7 оюн',
-            highlightTwo: '1 аккаунт',
-            highlightThree: 'Тез старт',
-            login: 'Кирүү',
-            play: 'Ойной баштоо',
-            profile: 'Профиль',
-            register: 'Катталуу',
-            username: 'Колдонуучу аты',
-            email: 'Электрондук почта',
-            password: 'Сырсөз',
-            confirmPassword: 'Сырсөздү ырастаңыз',
-            rememberMe: 'Мени эстеп кал',
-            cancel: 'Жокко чыгаруу',
-            continue: 'Улантуу',
-            profileInfo: 'Профиль маалыматы',
-            daysInSystem: 'системадагы күндөр',
-            gamesPlayed: 'ойнолгон оюндар',
-            lastLogin: 'акыркы кирүү',
-            settings: 'Жөндөөлөр',
-            language: 'Интерфейс тили',
-            theme: 'Тема',
-            light: 'Жарык',
-            dark: 'Караңгы',
-            auto: 'Авто',
-            notifications: 'Билдирмелер',
-            emailNotifications: 'Электрондук почта билдирмелери',
-            gameNotifications: 'Оюн билдирмелери',
-            newsNotifications: 'Жаңылыктар жана жаңыртуулар',
-            accountManagement: 'Аккаунтту башкаруу',
-            changeData: 'Маалыматты өзгөртүү',
-            changeUsername: 'Колдонуучу атын өзгөртүү',
-            changePassword: 'Сырсөздү өзгөртүү',
-            exportData: 'Маалыматты экспорттоо',
-            downloadData: 'Маалыматты жүктөп алуу',
-            dangerZone: 'Кооптуу аймак',
-            logout: 'Аккаунттан чыгуу',
-            deleteAccount: 'Аккаунтту өчүрүү',
-            back: 'Артка',
-            registered: 'Катталган',
-            games: 'Оюндар',
-            aboutUs: 'Биз жөнүндө',
-            contacts: 'Байланыш',
-            loginTitle: 'Аккаунтка кирүү',
-            registerTitle: 'Катталуу',
-            enterPassword: 'Сырсөздү киргизиңиз',
-            passwordRequirements: {
-                length: 'Кеминде 8 белги',
-                uppercase: 'Баш тамга',
-                lowercase: 'Кичине тамга',
-                number: 'Сан',
-                special: 'Атайын белги'
-            },
-            passwordStrength: {
-                weak: 'Алсыз сырсөз',
-                fair: 'Орточо сырсөз',
-                good: 'Жакшы сырсөз',
-                strong: 'Күчтүү сырсөз'
-            },
-            passwordMatch: 'Сырсөздөр дал келди',
-            passwordNoMatch: 'Сырсөздөр дал келген жок',
-            stepsTitle: 'Кандай иштейт',
-            stepsDesc: 'Үч жөнөкөй кадам жана сиз оюнга даярсыз.',
-            step1Title: 'Катталуу',
-            step1Desc: 'Бир мүнөттө аккаунт түзүп, профилиңизди сактайсыз.',
-            step2Title: 'Оюн тандоо',
-            step2Desc: 'Көчмөн Орноку, Канаттуу куш же Кыз куумайды тандаңыз.',
-            kyzKuumaiOne: 'Кыз куумай (IEI)',
-            kyzKuumaiOneDesc: 'Кыргыз элинин ат оюну. Ылдамдык жана реакция.',
-            kyzKuumaiTwo: 'Кыз куумай (DGONI)',
-            kyzKuumaiTwoDesc: 'Аркада форматындагы ылдам жарыш.',
-            tynchysPy: 'TynchysPy',
-            tynchysPyDesc: 'Браузердик оюн (тышкы шилтеме).',
-            richWheel: 'Rich Wheel',
-            richWheelDesc: 'Браузердик оюн (тышкы шилтеме).',
-            kyrgyzMemory: 'Kyrgyz Memory',
-            kyrgyzMemoryDesc: 'Эсте сактоо оюну (тышкы шилтеме).',
-            step3Title: 'Ойной баштоо',
-            step3Desc: 'Бир баскыч менен оюнга кирип кетиңиз.',
-            fastDownload: 'Тез жүктөө',
-            fastDownloadDesc: 'Оюндар заматта жүктөлөт',
-            security: 'Коопсуздук',
-            securityDesc: 'Коопсуз төлөмдөр',
-            support247: '24/7 Колдоо',
-            support247Desc: 'Ар дайым жардам беребиз',
-            ndnStore: 'Көчмөн Ордо',
-            bestGameStore: 'Мыкты оюн дүкөнү',
-            followUs: 'Бизди ээрчиңиз',
-            allRightsReserved: 'Бардык укуктар корголгон.',
-            today: 'Бүгүн',
-            daysAgo: 'күн мурун',
-            userNotFound: 'Мындай email менен колдонуучу табылган жок!',
-            wrongPassword: 'Сырсөз туура эмес!',
-            passwordsNotMatch: 'Сырсөздөр дал келген жок!',
-            userExists: 'Бул email менен колдонуучу мурунтан бар!',
-            welcomeBack: 'Кайра кош келиңиз',
-            welcomeToStore: 'Көчмөн Ордо платформасына кош келиңиз',
-            registrationSuccess: 'Катталуу ийгиликтүү бүттү!',
-            ctaTitle: 'Даярсызбы? Оюнга кирели!',
-            ctaDesc: 'Катталып, сүйүктүү оюнуңузду тандап бүгүн ойной баштаңыз.',
-            logoutSuccess: 'Аккаунттан ийгиликтүү чыктыңыз!',
-            accountDeleted: 'Аккаунт ийгиликтүү өчүрүлдү!',
-            usernameChanged: 'Колдонуучу аты ийгиликтүү өзгөртүлдү!',
-            passwordChanged: 'Сырсөз ийгиликтүү өзгөртүлдү!',
-            dataExported: 'Маалымат ийгиликтүү экспорттолду!',
-            usernameMinLength: 'Колдонуучу аты кеминде 3 белгиден турушу керек!',
-            usernameMaxLength: 'Колдонуучу аты 20 белгиден ашпашы керек!',
-            usernameInvalidChars: 'Колдонуучу аты тамга, сан жана "_" гана камтышы керек!',
-            usernameStartLetter: 'Колдонуучу аты тамга менен башталышы керек!',
-            emailRequired: 'Email дареги милдеттүү!',
-            emailTooLong: 'Email дареги өтө узун!',
-            emailInvalid: 'Туура email дарегин киргизиңиз!',
-            emailOneAt: 'Email дарегинде бир гана @ белгиси болушу керек!',
-            emailLocalInvalid: 'Email дарегинин жергиликтүү бөлүгү туура эмес!',
-            emailDomainInvalid: 'Email дарегинин домен бөлүгү туура эмес!',
-            emailStartEndDot: 'Email чекит менен башталып же аяктабашы керек!',
-            emailDoubleDot: 'Email ичинде кош чекит болбошу керек!',
-            passwordMinLength: 'Сырсөз кеминде 8 белгиден турушу керек!',
-            passwordMaxLength: 'Сырсөз 128 белгиден ашпашы керек!',
-            passwordUppercase: 'Сырсөздө жок дегенде бир баш тамга болушу керек!',
-            passwordLowercase: 'Сырсөздө жок дегенде бир кичине тамга болушу керек!',
-            passwordNumber: 'Сырсөздө жок дегенде бир сан болушу керек!',
-            passwordSpecial: 'Сырсөздө жок дегенде бир атайын белги болушу керек!',
-            passwordNoSpaces: 'Сырсөздө боштук болбошу керек!',
-            passwordCommon: 'Бул сырсөз өтө кеңири колдонулат. Татаалыраак сырсөз тандаңыз!',
-            selectGame: 'Оюнду тандаңыз',
-            kochmonOrnoku: 'Көчмөн Орноку',
-            kochmonOrnokuDesc: 'Улуттук рухтагы оюн',
-            flappyBird: 'Канаттуу куш',
-            flappyBirdDesc: 'Классикалык аркада учуу оюну',
-            kochmonLoading: 'Көчмөн Орноку ачылып жатат!',
-            flappyLoading: 'Канаттуу куш ачылып жатат!',
-            kyzKuumaiLoading: 'Кыз куумай ачылып жатат!',
-            tynchysPyLoading: 'TynchysPy ачылып жатат!',
-            richWheelLoading: 'Rich Wheel ачылып жатат!',
-            kyrgyzMemoryLoading: 'Kyrgyz Memory ачылып жатат!',
-            gameLoading: 'Оюн ачылып жатат...',
-            logoutConfirm: 'Аккаунттан чыгасызбы?',
-            logoutConfirmText: 'Аккаунттан чыгууга ишенесизби?',
-            yesLogout: 'Ооба, чыгам',
-            deleteAccountConfirm: 'Аккаунтту өчүрөсүзбү?',
-            deleteAccountText: 'Бул аракет артка кайтарылбайт! Бардык маалыматыңыз өчүрүлөт.',
-            deleteAccountWarning: 'Эскертүү: бардык оюндарга жана маалыматка жетүү жоголот.',
-            yesDelete: 'Ооба, өчүрүү',
-            enterCurrentPassword: 'Учурдагы сырсөздү киргизиңиз:',
-            enterNewPassword: 'Жаңы сырсөздү киргизиңиз:',
-            wrongCurrentPassword: 'Учурдагы сырсөз туура эмес!',
-            returnFromGame: 'Кайра кош келиңиз! Сайт жаңыртылды.'
-        };
-        this.translations = {
-            ky: kyrgyzTranslations,
-            ru: kyrgyzTranslations,
-            en: kyrgyzTranslations
-        };
-    }
-    
-    setLanguage(lang) {
-        this.currentLanguage = lang;
-        setStorageValue('language', lang);
-        this.updateUI();
-    }
-    
-    getText(key) {
-        const keys = key.split('.');
-        let value = this.translations[this.currentLanguage];
-        
-        for (const k of keys) {
-            if (value && typeof value === 'object' && k in value) {
-                value = value[k];
-            } else {
-                return key; // Возвращаем ключ если перевод не найден
+            const users = getUsers();
+            const idx = users.findIndex((u) => u.id === user.id);
+            if (idx >= 0) {
+                users[idx].gamesPlayed = Number(users[idx].gamesPlayed || 0) + 1;
+                saveUsers(users);
             }
         }
-        
-        return value || key;
+        window.location.href = "games.html";
     }
-    
-    updateUI() {
-        // Обновляем основные элементы
-        document.querySelector('.hero-title').textContent = this.getText('welcome');
-        document.querySelector('.hero-description').textContent = this.getText('description');
 
-        const heroBadge = document.querySelector('#heroBadge');
-        if (heroBadge) {
-            heroBadge.innerHTML = `<i class="fas fa-mountain"></i> ${this.getText('heroBadge')}`;
-        }
-
-        const gamesBtnText = document.querySelector('#gamesBtn');
-        if (gamesBtnText) {
-            gamesBtnText.innerHTML = `<i class="fas fa-gamepad"></i> ${this.getText('viewGames')}`;
-        }
-
-        const highlightOne = document.querySelector('#highlightOne');
-        if (highlightOne) highlightOne.textContent = this.getText('highlightOne');
-        const highlightTwo = document.querySelector('#highlightTwo');
-        if (highlightTwo) highlightTwo.textContent = this.getText('highlightTwo');
-        const highlightThree = document.querySelector('#highlightThree');
-        if (highlightThree) highlightThree.textContent = this.getText('highlightThree');
-
-        const stepsTitle = document.querySelector('#stepsTitle');
-        if (stepsTitle) stepsTitle.textContent = this.getText('stepsTitle');
-        const stepsDesc = document.querySelector('#stepsDesc');
-        if (stepsDesc) stepsDesc.textContent = this.getText('stepsDesc');
-        const step1Title = document.querySelector('#step1Title');
-        if (step1Title) step1Title.textContent = this.getText('step1Title');
-        const step1Desc = document.querySelector('#step1Desc');
-        if (step1Desc) step1Desc.textContent = this.getText('step1Desc');
-        const step2Title = document.querySelector('#step2Title');
-        if (step2Title) step2Title.textContent = this.getText('step2Title');
-        const step2Desc = document.querySelector('#step2Desc');
-        if (step2Desc) step2Desc.textContent = this.getText('step2Desc');
-        const step3Title = document.querySelector('#step3Title');
-        if (step3Title) step3Title.textContent = this.getText('step3Title');
-        const step3Desc = document.querySelector('#step3Desc');
-        if (step3Desc) step3Desc.textContent = this.getText('step3Desc');
-
-        const ctaTitle = document.querySelector('#ctaTitle');
-        if (ctaTitle) ctaTitle.textContent = this.getText('ctaTitle');
-        const ctaDesc = document.querySelector('#ctaDesc');
-        if (ctaDesc) ctaDesc.textContent = this.getText('ctaDesc');
-        const ctaLogin = document.querySelector('#ctaLoginBtn');
-        if (ctaLogin) ctaLogin.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${this.getText('login')}`;
-        
-        // Обновляем навигацию
-        const navLinks = document.querySelectorAll('.nav-link');
-        if (navLinks[0]) navLinks[0].textContent = this.getText('games');
-        if (navLinks[1]) navLinks[1].textContent = this.getText('aboutUs');
-        if (navLinks[2]) navLinks[2].textContent = this.getText('contacts');
-        
-        // Обновляем кнопки
-        const loginBtnText = document.querySelector('#loginBtn');
-        if (loginBtnText) loginBtnText.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${this.getText('login')}`;
-        
-        const playBtnText = document.querySelector('#playBtn');
-        if (playBtnText) playBtnText.innerHTML = `<i class="fas fa-play"></i> ${this.getText('play')}`;
-        
-        const profileBtnText = document.querySelector('#profileBtn');
-        if (profileBtnText) profileBtnText.innerHTML = `<i class="fas fa-user-cog"></i> ${this.getText('profile')}`;
-        
-        const userMenuBtnText = document.querySelector('#userMenuBtn');
-        if (userMenuBtnText) userMenuBtnText.innerHTML = `<i class="fas fa-user"></i>`;
-        
-        // Обновляем футер
-        this.updateFooter();
-        
-        // Обновляем формы
-        this.updateForms();
-        this.updateProfile();
-        this.updateFeatures();
-    }
-    
-    updateForms() {
-        const loginTabText = document.querySelector('#loginTab');
-        if (loginTabText) loginTabText.innerHTML = `<i class="fas fa-sign-in-alt"></i> ${this.getText('login')}`;
-        
-        const registerTabText = document.querySelector('#registerTab');
-        if (registerTabText) registerTabText.innerHTML = `<i class="fas fa-user-plus"></i> ${this.getText('register')}`;
-        
-        // Обновляем заголовки форм
-        const loginFormTitle = document.querySelector('#loginFormTitle');
-        if (loginFormTitle) loginFormTitle.textContent = this.getText('loginTitle');
-        
-        const registerFormTitle = document.querySelector('#registerFormTitle');
-        if (registerFormTitle) registerFormTitle.textContent = this.getText('registerTitle');
-        
-        // Обновляем поля форм
-        const usernameField = document.querySelector('#username');
-        if (usernameField) usernameField.placeholder = this.getText('username');
-        
-        const emailField = document.querySelector('#email');
-        if (emailField) emailField.placeholder = this.getText('email');
-        
-        const passwordField = document.querySelector('#password');
-        if (passwordField) passwordField.placeholder = this.getText('password');
-        
-        const confirmPasswordField = document.querySelector('#confirmPassword');
-        if (confirmPasswordField) confirmPasswordField.placeholder = this.getText('confirmPassword');
-        
-        const rememberMeField = document.querySelector('#rememberMe');
-        if (rememberMeField) {
-            const label = rememberMeField.nextElementSibling;
-            if (label) label.textContent = this.getText('rememberMe');
-        }
-        
-        // Обновляем требования к паролю
-        this.updatePasswordRequirements();
-    }
-    
-    updatePasswordRequirements() {
-        const requirements = document.querySelectorAll('.requirement');
-        if (requirements[0]) requirements[0].textContent = this.getText('passwordRequirements.length');
-        if (requirements[1]) requirements[1].textContent = this.getText('passwordRequirements.uppercase');
-        if (requirements[2]) requirements[2].textContent = this.getText('passwordRequirements.lowercase');
-        if (requirements[3]) requirements[3].textContent = this.getText('passwordRequirements.number');
-        if (requirements[4]) requirements[4].textContent = this.getText('passwordRequirements.special');
-    }
-    
-    updateProfile() {
-        // Обновляем профиль если он открыт
-        if (profilePage && profilePage.style.display !== 'none') {
-            const profileInfoText = document.querySelector('#profileSection h3');
-            if (profileInfoText) profileInfoText.textContent = this.getText('profileInfo');
-            
-            const settingsText = document.querySelector('#settingsSection h3');
-            if (settingsText) settingsText.textContent = this.getText('settings');
-            
-            const accountText = document.querySelector('#accountSection h3');
-            if (accountText) accountText.textContent = this.getText('accountManagement');
-        }
-    }
-    
-    updateFooter() {
-        // Обновляем футер
-        const footerSections = document.querySelectorAll('.footer-section h4');
-        if (footerSections[0]) footerSections[0].textContent = this.getText('ndnStore');
-        if (footerSections[1]) footerSections[1].textContent = this.getText('followUs');
-        
-        const footerParagraphs = document.querySelectorAll('.footer-section p');
-        if (footerParagraphs[0]) footerParagraphs[0].textContent = this.getText('bestGameStore');
-        
-        const footerBottom = document.querySelector('.footer-bottom p');
-        if (footerBottom) {
-            const currentYear = new Date().getFullYear();
-            footerBottom.textContent = `© ${currentYear} ${this.getText('ndnStore')}. ${this.getText('allRightsReserved')}`;
-        }
-    }
-    
-    updateFeatures() {
-        // Обновляем секцию features
-        const features = document.querySelectorAll('.feature');
-        if (features[0]) {
-            const h3 = features[0].querySelector('h3');
-            const p = features[0].querySelector('p');
-            if (h3) h3.textContent = this.getText('fastDownload');
-            if (p) p.textContent = this.getText('fastDownloadDesc');
-        }
-        if (features[1]) {
-            const h3 = features[1].querySelector('h3');
-            const p = features[1].querySelector('p');
-            if (h3) h3.textContent = this.getText('security');
-            if (p) p.textContent = this.getText('securityDesc');
-        }
-        if (features[2]) {
-            const h3 = features[2].querySelector('h3');
-            const p = features[2].querySelector('p');
-            if (h3) h3.textContent = this.getText('support247');
-            if (p) p.textContent = this.getText('support247Desc');
-        }
-    }
-}
-
-// Система настроек
-class SettingsManager {
-    constructor() {
-        this.settings = {
-            language: getStorageValue('language') || 'ky',
-            theme: getStorageValue('theme') || 'light',
-            notifications: {
-                email: getStorageValue('emailNotifications') !== 'false',
-                games: getStorageValue('gameNotifications') !== 'false',
-                news: getStorageValue('newsNotifications') === 'true'
-            }
-        };
-    }
-    
-    saveSettings() {
-        setStorageValue('language', this.settings.language);
-        setStorageValue('theme', this.settings.theme);
-        setStorageValue('emailNotifications', this.settings.notifications.email);
-        setStorageValue('gameNotifications', this.settings.notifications.games);
-        setStorageValue('newsNotifications', this.settings.notifications.news);
-    }
-    
-    applyTheme(theme) {
-        this.settings.theme = theme;
-        document.body.classList.remove('theme-light', 'theme-dark', 'theme-auto');
-        document.body.classList.add(`theme-${theme}`);
-        this.saveSettings();
-    }
-}
-
-// Инициализация систем
-const languageManager = new LanguageManager();
-const settingsManager = new SettingsManager();
-
-// Инициализация временного storage
-const tempStorage = new TempStorage();
-
-// Очищаем истекшие сессии при загрузке
-tempStorage.clearExpiredSessions();
-
-// Проверяем, зарегистрирован ли пользователь
-let isRegistered = localStorage.getItem('isRegistered') === 'true';
-let userData = JSON.parse(localStorage.getItem('userData') || '{}');
-
-// Проверяем валидность сессии
-if (isRegistered && userData.sessionId) {
-    const session = tempStorage.validateSession(userData.sessionId);
-    if (!session) {
-        // Сессия истекла, выходим из аккаунта
-        localStorage.removeItem('userData');
-        localStorage.removeItem('isRegistered');
-        isRegistered = false;
-        userData = {};
-    }
-}
-
-// Показываем кнопку "Начать играть" если пользователь уже зарегистрирован
-if (isRegistered) {
-    showPlayButton();
-    updateLoginButton();
-}
-
-// Инициализируем язык и тему
-languageManager.updateUI();
-settingsManager.applyTheme(settingsManager.settings.theme);
-
-// Добавляем информацию о storage в консоль для отладки
-console.log('Көчмөн Ордо - storage маалыматы:', tempStorage.getStorageInfo());
-
-// Обработчик клика на кнопку "Войти"
-bindEvent(loginBtn, 'click', function() {
-    // Показываем формы входа/регистрации только для неавторизованных пользователей
-    showAuthForms();
-});
-
-bindEvent(ctaLoginBtn, 'click', function() {
-    showAuthForms();
-});
-
-// Обработчики табов
-bindEvent(loginTab, 'click', function() {
-    switchToLoginTab();
-});
-
-bindEvent(registerTab, 'click', function() {
-    switchToRegisterTab();
-});
-
-// Обработчик формы входа
-bindEvent(loginFormElement, 'submit', function(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const rememberMe = document.getElementById('rememberMe').checked;
-    
-    // Валидация email
-    if (!validateEmail(email)) {
-        return;
-    }
-    
-    // Поиск пользователя
-    const user = tempStorage.findUserByEmail(email);
-    if (!user) {
-        showError(languageManager.getText('userNotFound'));
-        return;
-    }
-    
-    // Проверка пароля
-    if (!tempStorage.verifyPassword(password, user.passwordHash)) {
-        showError(languageManager.getText('wrongPassword'));
-        return;
-    }
-    
-    // Успешный вход
-    loginUser(user, rememberMe);
-});
-
-// Обработчик кнопки "Отмена" для входа
-bindEvent(cancelLogin, 'click', function() {
-    hideAuthForms();
-});
-
-// Закрытие меню при клике вне его
-document.addEventListener('click', function(e) {
-    if (isRegistered && !loginBtn.contains(e.target) && !userMenu.contains(e.target) && !userMenuBtn.contains(e.target)) {
-        hideUserMenu();
-    }
-});
-
-// Обработчик кнопки "Отмена" для регистрации
-bindEvent(cancelReg, 'click', function() {
-    hideAuthForms();
-});
-
-// Обработчик отправки формы регистрации
-bindEvent(regForm, 'submit', function(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    
-    // Валидация имени пользователя
-    if (!validateUsername(username)) {
-        return;
-    }
-    
-    // Валидация email
-    if (!validateEmail(email)) {
-        return;
-    }
-    
-    // Валидация пароля
-    if (!validatePassword(password)) {
-        return;
-    }
-    
-    // Проверка совпадения паролей
-    if (password !== confirmPassword) {
-        showError(languageManager.getText('passwordsNotMatch'));
-        return;
-    }
-    
-    // Проверка на существующего пользователя
-    if (tempStorage.findUserByEmail(email)) {
-        showError(languageManager.getText('userExists'));
-        return;
-    }
-    
-    // Добавляем пользователя в временный storage
-    const newUser = tempStorage.addUser({
-        username: username,
-        email: email,
-        password: password
-    });
-    
-    // Создаем сессию
-    const session = tempStorage.addSession(newUser.id, false);
-    
-    // Сохраняем данные текущего пользователя
-    userData = {
-        id: newUser.id,
-        username: username,
-        email: email,
-        registrationDate: newUser.createdAt,
-        sessionId: session.id
-    };
-    
-    localStorage.setItem('userData', JSON.stringify(userData));
-    localStorage.setItem('isRegistered', 'true');
-    
-    isRegistered = true;
-    
-    // Скрываем формы и показываем кнопку "Начать играть"
-    hideAuthForms();
-    showPlayButton();
-    updateLoginButton();
-    showSuccessMessage(`${languageManager.getText('welcomeToStore')}, ${username}!`);
-    
-    // Очищаем форму
-    regForm.reset();
-});
-
-// Обработчик клика на кнопку "Начать играть"
-bindEvent(playBtn, 'click', function() {
-    showGameSelection();
-});
-
-// Обработчик клика на кнопку "Профиль"
-bindEvent(profileBtn, 'click', function() {
-    showProfile();
-});
-
-// Обработчик клика на кнопку меню пользователя
-bindEvent(userMenuBtn, 'click', function() {
-    // Переключаем видимость меню пользователя
-    if (userMenu.style.display === 'block') {
-        hideUserMenu();
-    } else {
-        showUserMenu();
-    }
-});
-
-// Обработчик кнопки "Назад" в профиле
-bindEvent(backToMainBtn, 'click', function() {
-    hideProfile();
-});
-
-// Обработчики табов профиля
-bindEvent(profileTab, 'click', function() {
-    switchProfileTab('profile');
-});
-
-bindEvent(settingsTab, 'click', function() {
-    switchProfileTab('settings');
-});
-
-bindEvent(accountTab, 'click', function() {
-    switchProfileTab('account');
-});
-
-// Обработчики языков
-document.querySelectorAll('.language-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const lang = this.dataset.lang;
-        languageManager.setLanguage(lang);
-        
-        // Обновляем активную кнопку
-        document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-    });
-});
-
-// Обработчики тем
-document.querySelectorAll('.theme-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        const theme = this.dataset.theme;
-        settingsManager.applyTheme(theme);
-        
-        // Обновляем активную кнопку
-        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-    });
-});
-
-// Обработчики уведомлений
-const emailNotificationsInput = document.getElementById('emailNotifications');
-const gameNotificationsInput = document.getElementById('gameNotifications');
-const newsNotificationsInput = document.getElementById('newsNotifications');
-
-function syncSettingsUI() {
-    const currentLanguage = languageManager.currentLanguage;
-    document.querySelectorAll('.language-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
-    });
-
-    const currentTheme = settingsManager.settings.theme;
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.theme === currentTheme);
-    });
-
-    if (emailNotificationsInput) {
-        emailNotificationsInput.checked = !!settingsManager.settings.notifications.email;
-    }
-    if (gameNotificationsInput) {
-        gameNotificationsInput.checked = !!settingsManager.settings.notifications.games;
-    }
-    if (newsNotificationsInput) {
-        newsNotificationsInput.checked = !!settingsManager.settings.notifications.news;
-    }
-}
-
-syncSettingsUI();
-
-bindEvent(emailNotificationsInput, 'change', function() {
-    settingsManager.settings.notifications.email = this.checked;
-    settingsManager.saveSettings();
-});
-
-bindEvent(gameNotificationsInput, 'change', function() {
-    settingsManager.settings.notifications.games = this.checked;
-    settingsManager.saveSettings();
-});
-
-bindEvent(newsNotificationsInput, 'change', function() {
-    settingsManager.settings.notifications.news = this.checked;
-    settingsManager.saveSettings();
-});
-
-// Обработчики управления аккаунтом
-bindEvent(changeUsernameBtn, 'click', function() {
-    showChangeUsernameDialog();
-});
-
-bindEvent(changePasswordBtn, 'click', function() {
-    showChangePasswordDialog();
-});
-
-bindEvent(exportDataBtn, 'click', function() {
-    exportUserData();
-});
-
-bindEvent(logoutAccountBtn, 'click', function() {
-    logout();
-});
-
-bindEvent(deleteAccountDangerBtn, 'click', function() {
-    showDeleteConfirmation();
-});
-
-// Обработчик клика на кнопку "Выйти"
-bindEvent(logoutBtn, 'click', function() {
-    logout();
-});
-
-// Обработчик клика на кнопку "Удалить аккаунт"
-bindEvent(deleteAccountMenuBtn, 'click', function() {
-    showDeleteConfirmation();
-});
-
-// Функции выхода и удаления
-function createConfirmationModal(options) {
-    const {
-        modalClass,
-        title,
-        description,
-        confirmText,
-        confirmButtonClass = 'btn-primary',
-        confirmIconClass = 'fas fa-check',
-        warningText = '',
-        warningIconClass = '',
-        onConfirm
-    } = options;
-
-    document.querySelectorAll('.logout-confirmation, .delete-confirmation').forEach(modal => modal.remove());
-
-    const message = document.createElement('div');
-    message.className = modalClass;
-    message.innerHTML = `
-        <div class="confirmation-content">
-            ${warningIconClass ? `<div class="warning-icon"><i class="${warningIconClass}"></i></div>` : ''}
-            <h3>${title}</h3>
-            <p>${description}</p>
-            ${warningText ? `<div class="warning-text"><strong>${warningText}</strong></div>` : ''}
-            <div class="confirmation-buttons">
-                <button class="btn ${confirmButtonClass} confirm-action-btn">
-                    <i class="${confirmIconClass}"></i>
-                    ${confirmText}
-                </button>
-                <button class="btn btn-secondary cancel-action-btn">
-                    <i class="fas fa-times"></i>
-                    ${languageManager.getText('cancel')}
-                </button>
-            </div>
-        </div>
-    `;
-
-    document.body.appendChild(message);
-
-    message.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-        animation: fadeIn 0.3s ease-out;
-    `;
-
-    const confirmationContent = message.querySelector('.confirmation-content');
-    confirmationContent.style.cssText = `
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        animation: scaleIn 0.3s ease-out;
-        max-width: 450px;
-        width: 90%;
-    `;
-
-    const warningIcon = message.querySelector('.warning-icon');
-    if (warningIcon) {
-        warningIcon.style.cssText = `
-            font-size: 3rem;
-            color: #ef4444;
-            margin-bottom: 1rem;
-        `;
-    }
-
-    const warningBox = message.querySelector('.warning-text');
-    if (warningBox) {
-        warningBox.style.cssText = `
-            background: #fef2f2;
-            color: #dc2626;
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            border: 1px solid #fecaca;
-        `;
-    }
-
-    const confirmationButtons = message.querySelector('.confirmation-buttons');
-    confirmationButtons.style.cssText = `
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-top: 1.5rem;
-    `;
-
-    bindEvent(message.querySelector('.cancel-action-btn'), 'click', function() {
-        message.remove();
-    });
-
-    bindEvent(message, 'click', function(event) {
-        if (event.target === message) {
-            message.remove();
-        }
-    });
-
-    bindEvent(message.querySelector('.confirm-action-btn'), 'click', function() {
-        if (typeof onConfirm === 'function') {
-            onConfirm();
-        }
-        message.remove();
-    });
-}
-
-function logout() {
-    createConfirmationModal({
-        modalClass: 'logout-confirmation',
-        title: languageManager.getText('logoutConfirm'),
-        description: languageManager.getText('logoutConfirmText'),
-        confirmText: languageManager.getText('yesLogout'),
-        confirmButtonClass: 'btn-primary',
-        confirmIconClass: 'fas fa-sign-out-alt',
-        onConfirm: performLogout
-    });
-}
-
-function performLogout() {
-    // Деактивируем текущую сессию
-    if (userData.sessionId) {
-        const session = tempStorage.data.sessions.find(s => s.id === userData.sessionId);
-        if (session) {
-            session.isActive = false;
-            tempStorage.saveData();
-        }
-    }
-    
-    // Очищаем данные пользователя
-    localStorage.removeItem('userData');
-    localStorage.removeItem('isRegistered');
-    
-    // Сбрасываем состояние
-    isRegistered = false;
-    userData = {};
-    
-    // Скрываем элементы
-    hideUserMenu();
-    playBtn.style.display = 'none';
-    
-    // Восстанавливаем кнопку входа
-    updateLoginButton();
-
-    // Показываем сообщение
-    showSuccessMessage(languageManager.getText('logoutSuccess'));
-}
-
-function showDeleteConfirmation() {
-    createConfirmationModal({
-        modalClass: 'delete-confirmation',
-        title: languageManager.getText('deleteAccountConfirm'),
-        description: languageManager.getText('deleteAccountText'),
-        confirmText: languageManager.getText('yesDelete'),
-        confirmButtonClass: 'btn-danger',
-        confirmIconClass: 'fas fa-trash',
-        warningText: languageManager.getText('deleteAccountWarning'),
-        warningIconClass: 'fas fa-exclamation-triangle',
-        onConfirm: performDeleteAccount
-    });
-}
-
-function performDeleteAccount() {
-    // Удаляем пользователя из временного storage
-    tempStorage.deleteUser(userData.email);
-    
-    // Деактивируем все сессии пользователя
-    tempStorage.data.sessions.forEach(session => {
-        if (session.userId === userData.id) {
-            session.isActive = false;
-        }
-    });
-    tempStorage.saveData();
-    
-    // Очищаем данные текущего пользователя
-    localStorage.removeItem('userData');
-    localStorage.removeItem('isRegistered');
-    
-    // Сбрасываем состояние
-    isRegistered = false;
-    userData = {};
-    
-    // Скрываем элементы
-    hideUserMenu();
-    playBtn.style.display = 'none';
-    
-    // Восстанавливаем кнопку входа
-    updateLoginButton();
-
-    // Показываем сообщение
-    showSuccessMessage(languageManager.getText('accountDeleted'));
-}
-
-// Интерактивные индикаторы пароля
-const passwordInput = document.getElementById('password');
-const confirmPasswordInput = document.getElementById('confirmPassword');
-const passwordRequirements = document.getElementById('passwordRequirements');
-const passwordMatch = document.getElementById('passwordMatch');
-
-// Обработчик ввода пароля
-bindEvent(passwordInput, 'input', function() {
-    const password = this.value;
-    updatePasswordStrength(password);
-    updatePasswordRequirements(password);
-    
-    // Проверяем совпадение паролей, если поле подтверждения заполнено
-    if (confirmPasswordInput && confirmPasswordInput.value) {
-        checkPasswordMatch();
-    }
-});
-
-// Обработчик ввода подтверждения пароля
-bindEvent(confirmPasswordInput, 'input', function() {
-    checkPasswordMatch();
-});
-
-function updatePasswordStrength(password) {
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthText = document.getElementById('strengthText');
-    if (!strengthFill || !strengthText) return;
-    
-    let score = 0;
-    let strength = 'weak';
-    
-    // Подсчет очков силы пароля
-    if (password.length >= 8) score++;
-    if (/[A-Z]/.test(password)) score++;
-    if (/[a-z]/.test(password)) score++;
-    if (/\d/.test(password)) score++;
-    if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) score++;
-    
-    // Определение уровня силы
-    if (score >= 5) strength = 'strong';
-    else if (score >= 4) strength = 'good';
-    else if (score >= 2) strength = 'fair';
-    else if (score >= 1) strength = 'weak';
-    
-    // Обновление визуальных индикаторов
-    strengthFill.className = `strength-fill ${strength}`;
-    strengthText.className = `strength-text ${strength}`;
-    
-    const strengthMessages = {
-        weak: languageManager ? languageManager.getText('passwordStrength.weak') : 'Слабый пароль',
-        fair: languageManager ? languageManager.getText('passwordStrength.fair') : 'Удовлетворительный пароль',
-        good: languageManager ? languageManager.getText('passwordStrength.good') : 'Хороший пароль',
-        strong: languageManager ? languageManager.getText('passwordStrength.strong') : 'Отличный пароль'
-    };
-    
-    strengthText.textContent = strengthMessages[strength];
-}
-
-function updatePasswordRequirements(password) {
-    if (!passwordRequirements) return;
-
-    const requirements = {
-        'req-length': password.length >= 8,
-        'req-uppercase': /[A-Z]/.test(password),
-        'req-lowercase': /[a-z]/.test(password),
-        'req-number': /\d/.test(password),
-        'req-special': /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
-    };
-    
-    // Показываем требования только если пароль не пустой
-    if (password.length > 0) {
-        passwordRequirements.classList.add('show');
-    } else {
-        passwordRequirements.classList.remove('show');
-    }
-    
-    // Обновляем статус каждого требования
-    Object.keys(requirements).forEach(reqId => {
-        const element = document.getElementById(reqId);
-        if (!element) return;
-        if (requirements[reqId]) {
-            element.classList.add('valid');
-        } else {
-            element.classList.remove('valid');
-        }
-    });
-}
-
-function checkPasswordMatch() {
-    if (!passwordInput || !confirmPasswordInput || !passwordMatch) return;
-
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
-    
-    if (confirmPassword.length === 0) {
-        passwordMatch.classList.remove('show');
-        return;
-    }
-    
-    passwordMatch.classList.add('show');
-    
-    if (password === confirmPassword) {
-        passwordMatch.className = 'password-match show match';
-        passwordMatch.textContent = languageManager ? languageManager.getText('passwordMatch') : 'Сырсөздөр дал келди';
-    } else {
-        passwordMatch.className = 'password-match show no-match';
-        passwordMatch.textContent = languageManager ? languageManager.getText('passwordNoMatch') : 'Сырсөздөр дал келген жок';
-    }
-}
-
-// Функции управления формами
-function showAuthForms() {
-    authForms.style.display = 'block';
-    loginBtn.style.display = 'none';
-    
-    // Анимация появления
-    authForms.style.opacity = '0';
-    authForms.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        authForms.style.transition = 'all 0.3s ease-out';
-        authForms.style.opacity = '1';
-        authForms.style.transform = 'translateY(0)';
-    }, 10);
-}
-
-function hideAuthForms() {
-    authForms.style.transition = 'all 0.3s ease-out';
-    authForms.style.opacity = '0';
-    authForms.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        authForms.style.display = 'none';
-        loginBtn.style.display = 'inline-flex';
-        // Очищаем формы
-        loginFormElement.reset();
-        regForm.reset();
-    }, 300);
-}
-
-function switchToLoginTab() {
-    loginTab.classList.add('active');
-    registerTab.classList.remove('active');
-    loginForm.classList.add('active');
-    registerForm.classList.remove('active');
-}
-
-function switchToRegisterTab() {
-    registerTab.classList.add('active');
-    loginTab.classList.remove('active');
-    registerForm.classList.add('active');
-    loginForm.classList.remove('active');
-}
-
-function loginUser(user, rememberMe) {
-    // Обновляем время последнего входа
-    tempStorage.updateUserLogin(user.email);
-    
-    // Создаем новую сессию
-    const session = tempStorage.addSession(user.id, rememberMe);
-    
-    // Сохраняем данные текущего пользователя
-    userData = {
-        id: user.id,
-        username: user.username,
-        email: user.email,
-        registrationDate: user.createdAt,
-        sessionId: session.id
-    };
-    
-    localStorage.setItem('userData', JSON.stringify(userData));
-    localStorage.setItem('isRegistered', 'true');
-    
-    isRegistered = true;
-    
-    // Скрываем формы и показываем кнопку "Начать играть"
-    hideAuthForms();
-    showPlayButton();
-    updateLoginButton();
-    showSuccessMessage(`${languageManager.getText('welcomeBack')}, ${user.username}!`);
-}
-
-function showPlayButton() {
-    playBtn.style.display = 'inline-flex';
-    playBtn.classList.add('btn-appear');
-}
-
-function updateLoginButton() {
-    if (isRegistered) {
-        // Скрываем кнопку входа/регистрации
-        loginBtn.style.display = 'none';
-        
-        // Показываем кнопки профиля и меню пользователя
-        profileBtn.style.display = 'inline-flex';
-        userMenuBtn.style.display = 'inline-flex';
-        
-        // Скрываем меню пользователя
-        hideUserMenu();
-    } else {
-        // Показываем кнопку входа/регистрации
-        loginBtn.style.display = 'inline-flex';
-        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> ' + languageManager.getText('login');
-        loginBtn.style.background = '';
-        
-        // Скрываем кнопки профиля и меню пользователя
-        profileBtn.style.display = 'none';
-        userMenuBtn.style.display = 'none';
-        
-        // Скрываем меню пользователя
-        hideUserMenu();
-    }
-}
-
-// Функции профиля
-function showProfile() {
-    mainPage.style.display = 'none';
-    profilePage.style.display = 'block';
-    
-    // Заполняем данные профиля
-    updateProfileData();
-    
-    // Анимация появления
-    profilePage.style.opacity = '0';
-    profilePage.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        profilePage.style.transition = 'all 0.3s ease-out';
-        profilePage.style.opacity = '1';
-        profilePage.style.transform = 'translateY(0)';
-    }, 10);
-}
-
-function hideProfile() {
-    profilePage.style.transition = 'all 0.3s ease-out';
-    profilePage.style.opacity = '0';
-    profilePage.style.transform = 'translateY(20px)';
-    
-    setTimeout(() => {
-        profilePage.style.display = 'none';
-        mainPage.style.display = 'block';
-    }, 300);
-}
-
-function createInfoModal(title, description) {
-    const existingModal = document.querySelector('.info-modal');
-    if (existingModal) {
-        existingModal.remove();
-    }
-
-    const modal = document.createElement('div');
-    modal.className = 'info-modal';
-    modal.innerHTML = `
-        <div class="info-modal-content">
-            <h3>${title}</h3>
-            <p>${description}</p>
-            <button class="btn btn-primary close-info-modal-btn">
-                <i class="fas fa-check"></i>
-                ${languageManager.getText('continue')}
-            </button>
-        </div>
-    `;
-
-    document.body.appendChild(modal);
-
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-        animation: fadeIn 0.3s ease-out;
-        padding: 1rem;
-    `;
-
-    const modalContent = modal.querySelector('.info-modal-content');
-    modalContent.style.cssText = `
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        max-width: 520px;
-        width: 100%;
-        text-align: center;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
-        animation: scaleIn 0.3s ease-out;
-    `;
-
-    bindEvent(modal.querySelector('.close-info-modal-btn'), 'click', function() {
-        modal.remove();
-    });
-
-    bindEvent(modal, 'click', function(event) {
-        if (event.target === modal) {
-            modal.remove();
-        }
-    });
-}
-
-function showAboutModal() {
-    createInfoModal(
-        'Көчмөн Ордо',
-        'Көчмөн Ордо - кыргыз оюн дүкөнү. Катталып, профилди башкара аласыз жана оюндарды бир чыкылдатуу менен иштете аласыз.'
-    );
-}
-
-function showContactsModal() {
-    createInfoModal(
-        'Байланыш',
-        'Суроолор үчүн бизге жазыңыз: support@kochmon-ordo.kg. Биз 24/7 жардам беребиз.'
-    );
-}
-
-function updateProfileData() {
-    if (!isRegistered) return;
-    
-    // Основная информация
-    profileUsername.textContent = userData.username;
-    profileEmail.textContent = userData.email;
-    
-    // Дата регистрации
-    const regDate = new Date(userData.registrationDate);
-    profileDate.textContent = `${languageManager.getText('registered')}: ${regDate.toLocaleDateString()}`;
-    
-    // Статистика
-    const daysSinceReg = Math.floor((Date.now() - regDate.getTime()) / (1000 * 60 * 60 * 24));
-    daysRegistered.textContent = daysSinceReg;
-    
-    // Получаем данные пользователя из storage
-    const user = tempStorage.findUserByEmail(userData.email);
-    if (user) {
-        const played = Number(user.gamesPlayed || 0);
-        gamesPlayed.textContent = played;
-
-        if (user.lastLogin) {
-            const lastLoginDate = new Date(user.lastLogin);
-            const today = new Date();
-            const diffTime = Math.abs(today - lastLoginDate);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === 1) {
-                lastLogin.textContent = languageManager.getText('today');
-            } else {
-                lastLogin.textContent = `${diffDays} ${languageManager.getText('daysAgo')}`;
-            }
-        }
-
-        if (profileLevel && profileXP && profileRankTitle && profileXPFill && profileAchievements) {
-            const xp = played * 50;
-            const levelSize = 120;
-            const level = Math.floor(xp / levelSize) + 1;
-            const levelProgress = Math.floor((xp % levelSize) / levelSize * 100);
-
-            let rank = 'Nomad';
-            if (xp >= 1500) rank = 'Legend';
-            else if (xp >= 900) rank = 'Master';
-            else if (xp >= 450) rank = 'Hunter';
-            else if (xp >= 180) rank = 'Rider';
-
-            profileLevel.textContent = `Level ${level}`;
-            profileXP.textContent = `${xp} XP`;
-            profileRankTitle.textContent = rank;
-            profileXPFill.style.width = `${Math.max(0, Math.min(100, levelProgress))}%`;
-
-            const badges = [
-                { title: 'Алгачкы кадам', unlocked: played >= 1 },
-                { title: 'Туруктуу оюнчу', unlocked: played >= 5 },
-                { title: 'Көчмөн руху', unlocked: played >= 10 },
-                { title: 'Дала легендасы', unlocked: xp >= 800 }
-            ];
-
-            profileAchievements.innerHTML = '';
-            badges.forEach((badge) => {
-                const badgeEl = document.createElement('span');
-                badgeEl.className = `badge-item${badge.unlocked ? ' unlocked' : ''}`;
-                badgeEl.textContent = badge.unlocked ? `✓ ${badge.title}` : `• ${badge.title}`;
-                profileAchievements.appendChild(badgeEl);
-            });
-        }
-    }
-}
-
-function switchProfileTab(tabName) {
-    // Убираем активные классы
-    document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
-    document.querySelectorAll('.profile-section').forEach(section => section.classList.remove('active'));
-    
-    // Добавляем активные классы
-    if (tabName === 'profile') {
-        profileTab.classList.add('active');
-        profileSection.classList.add('active');
-    } else if (tabName === 'settings') {
-        settingsTab.classList.add('active');
-        settingsSection.classList.add('active');
-    } else if (tabName === 'account') {
-        accountTab.classList.add('active');
-        accountSection.classList.add('active');
-    }
-}
-
-function showChangeUsernameDialog() {
-    const newUsername = prompt(languageManager.getText('changeUsername') + ':', userData.username);
-    if (newUsername && newUsername.trim() !== '' && newUsername !== userData.username) {
-        if (validateUsername(newUsername.trim())) {
-            // Обновляем в storage
-            const user = tempStorage.findUserByEmail(userData.email);
-            if (user) {
-                user.username = newUsername.trim();
-                tempStorage.saveData();
-                
-                // Обновляем текущие данные
-                userData.username = newUsername.trim();
-                localStorage.setItem('userData', JSON.stringify(userData));
-                
-                // Обновляем UI
-                updateProfileData();
-                updateLoginButton();
-                
-                showSuccessMessage(languageManager.getText('usernameChanged'));
-            }
-        }
-    }
-}
-
-function showChangePasswordDialog() {
-    const currentPassword = prompt(languageManager.getText('enterCurrentPassword'));
-    if (!currentPassword) return;
-    
-    // Проверяем текущий пароль
-    const user = tempStorage.findUserByEmail(userData.email);
-    if (!user || !tempStorage.verifyPassword(currentPassword, user.passwordHash)) {
-        showError(languageManager.getText('wrongCurrentPassword'));
-        return;
-    }
-    
-    const newPassword = prompt(languageManager.getText('enterNewPassword'));
-    if (!newPassword) return;
-    
-    if (validatePassword(newPassword)) {
-        // Обновляем пароль в storage
-        user.passwordHash = tempStorage.hashPassword(newPassword);
-        tempStorage.saveData();
-        
-        showSuccessMessage(languageManager.getText('passwordChanged'));
-    }
-}
-
-function exportUserData() {
-    const user = tempStorage.findUserByEmail(userData.email);
-    if (user) {
-        const exportData = {
-            username: user.username,
-            email: user.email,
-            registrationDate: user.createdAt,
-            lastLogin: user.lastLogin,
-            gamesPlayed: user.gamesPlayed || 0,
-            settings: settingsManager.settings,
-            exportDate: new Date().toISOString()
-        };
-        
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-        
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = `kochmon-ordo-data-${user.username}-${new Date().toISOString().split('T')[0]}.json`;
-        link.click();
-        
-        showSuccessMessage(languageManager.getText('dataExported'));
-    }
-}
-
-function showUserMenu() {
-    if (userData.username && userData.email) {
-        userName.textContent = userData.username;
-        userEmail.textContent = userData.email;
-        userMenu.style.display = 'block';
-        
-        // Добавляем кнопку "Профиль" в меню если её нет
-        if (!document.getElementById('profileMenuBtn')) {
-            const profileMenuBtn = document.createElement('button');
-            profileMenuBtn.id = 'profileMenuBtn';
-            profileMenuBtn.className = 'user-action-btn';
-            profileMenuBtn.innerHTML = `<i class="fas fa-user-cog"></i> ${languageManager.getText('profile')}`;
-            bindEvent(profileMenuBtn, 'click', function() {
-                hideUserMenu();
-                showProfile();
-            });
-            userMenu.querySelector('.user-actions').insertBefore(profileMenuBtn, logoutBtn);
-        }
-    }
-}
-
-function hideUserMenu() {
-    userMenu.style.display = 'none';
-}
-
-function showWelcomeMessage() {
-    const message = document.createElement('div');
-    message.className = 'welcome-message';
-    message.innerHTML = `
-        <div class="welcome-content">
-            <h3>Кош келиңиз, ${userData.username}!</h3>
-            <p>Системага ийгиликтүү кирдиңиз</p>
-            <button class="btn btn-primary" onclick="this.parentElement.parentElement.remove()">
-                <i class="fas fa-check"></i>
-                Улантуу
-            </button>
-        </div>
-    `;
-    
-    document.body.appendChild(message);
-    
-    // Стили для сообщения
-    message.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-        animation: fadeIn 0.3s ease-out;
-    `;
-    
-    const welcomeContent = message.querySelector('.welcome-content');
-    welcomeContent.style.cssText = `
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        text-align: center;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        animation: scaleIn 0.3s ease-out;
-    `;
-}
-
-function showSuccessMessage(successText) {
-    const message = document.createElement('div');
-    message.className = 'success-message';
-    message.innerHTML = `
-        <div class="success-content">
-            <i class="fas fa-check-circle"></i>
-            <h3>${successText || languageManager.getText('registrationSuccess')}</h3>
-        </div>
-    `;
-    
-    document.body.appendChild(message);
-    
-    // Стили для сообщения
-    message.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #8c3f21 0%, #c79a42 100%);
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        animation: slideInFromRight 0.5s ease-out;
-    `;
-    
-    const successContent = message.querySelector('.success-content');
-    successContent.style.cssText = `
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    `;
-    
-    successContent.querySelector('i').style.cssText = `
-        font-size: 1.5rem;
-    `;
-    
-    // Автоматически скрываем через 3 секунды
-    setTimeout(() => {
-        message.style.animation = 'slideOutToRight 0.5s ease-out';
-        setTimeout(() => {
-            message.remove();
-        }, 500);
-    }, 3000);
-}
-
-function showError(errorText) {
-    const message = document.createElement('div');
-    message.className = 'error-message';
-    message.innerHTML = `
-        <div class="error-content">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span>${errorText}</span>
-        </div>
-    `;
-    
-    document.body.appendChild(message);
-    
-    // Стили для сообщения
-    message.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-        color: white;
-        padding: 1rem 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        z-index: 10000;
-        animation: slideInFromRight 0.5s ease-out;
-    `;
-    
-    const errorContent = message.querySelector('.error-content');
-    errorContent.style.cssText = `
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    `;
-    
-    errorContent.querySelector('i').style.cssText = `
-        font-size: 1.2rem;
-    `;
-    
-    // Автоматически скрываем через 4 секунды
-    setTimeout(() => {
-        message.style.animation = 'slideOutToRight 0.5s ease-out';
-        setTimeout(() => {
-            message.remove();
-        }, 500);
-    }, 4000);
-}
-
-function showGameSelection() {
-    const gameModal = document.createElement('div');
-    gameModal.className = 'game-selection-modal';
-    gameModal.innerHTML = `
-        <div class="game-modal-content">
-            <div class="game-modal-header">
-                <h2>${languageManager.getText('selectGame')}</h2>
-                <button class="close-modal" onclick="this.closest('.game-selection-modal').remove()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="games-grid">
-                <div class="game-card-modal" onclick="startGame('kochmon')">
-                    <i class="fas fa-users"></i>
-                    <h3>${languageManager.getText('kochmonOrnoku')}</h3>
-                    <p>${languageManager.getText('kochmonOrnokuDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('flappy')">
-                    <i class="fas fa-bird"></i>
-                    <h3>${languageManager.getText('flappyBird')}</h3>
-                    <p>${languageManager.getText('flappyBirdDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('kyz1')">
-                    <i class="fas fa-horse-head"></i>
-                    <h3>${languageManager.getText('kyzKuumaiOne')}</h3>
-                    <p>${languageManager.getText('kyzKuumaiOneDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('kyz2')">
-                    <i class="fas fa-flag-checkered"></i>
-                    <h3>${languageManager.getText('kyzKuumaiTwo')}</h3>
-                    <p>${languageManager.getText('kyzKuumaiTwoDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('tynchyspy')">
-                    <i class="fas fa-puzzle-piece"></i>
-                    <h3>${languageManager.getText('tynchysPy')}</h3>
-                    <p>${languageManager.getText('tynchysPyDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('richwheel')">
-                    <i class="fas fa-dice"></i>
-                    <h3>${languageManager.getText('richWheel')}</h3>
-                    <p>${languageManager.getText('richWheelDesc')}</p>
-                </div>
-                <div class="game-card-modal" onclick="startGame('kyrgyzmemory')">
-                    <i class="fas fa-brain"></i>
-                    <h3>${languageManager.getText('kyrgyzMemory')}</h3>
-                    <p>${languageManager.getText('kyrgyzMemoryDesc')}</p>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(gameModal);
-    
-    // Стили для модального окна
-    gameModal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-        animation: fadeIn 0.3s ease-out;
-    `;
-    
-    const modalContent = gameModal.querySelector('.game-modal-content');
-    modalContent.style.cssText = `
-        background: white;
-        padding: 2rem;
-        border-radius: 12px;
-        max-width: 800px;
-        width: 90%;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        animation: scaleIn 0.3s ease-out;
-    `;
-}
-
-// Глобальная функция для запуска игры
-window.startGame = function(gameType) {
-    const gameMessages = {
-        kochmon: languageManager.getText('kochmonLoading'),
-        flappy: languageManager.getText('flappyLoading'),
-        kyz1: languageManager.getText('kyzKuumaiLoading'),
-        kyz2: languageManager.getText('kyzKuumaiLoading'),
-        tynchyspy: languageManager.getText('tynchysPyLoading'),
-        richwheel: languageManager.getText('richWheelLoading'),
-        kyrgyzmemory: languageManager.getText('kyrgyzMemoryLoading')
-    };
-    
-    const gameLinks = {
-        kochmon: 'https://nurel077.github.io/NDN_games/',
-        flappy: 'https://nurel077.github.io/flappy_bird/',
-        kyz1: 'https://tw1zzyy.github.io/kyzkuumai_project_iei/',
-        kyz2: 'https://dgoni0707.github.io/Kyz-Kuumai/',
-        tynchyspy: 'https://tynchyspy.web.app/',
-        richwheel: 'https://rzn1926.github.io/Rich-Wheel/',
-        kyrgyzmemory: 'https://v0-kyrgyz-memory-website.vercel.app/'
-    };
-
-    if (!gameLinks[gameType]) {
-        showError('Бул оюн азырынча жеткиликтүү эмес.');
-        return;
-    }
-    
-    // Закрываем модальное окно
-    const modal = document.querySelector('.game-selection-modal');
-    if (modal) modal.remove();
-    
-    // Показываем сообщение о запуске игры
-    const message = document.createElement('div');
-    message.innerHTML = `
-        <div style="
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #8c3f21 0%, #c79a42 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-            z-index: 10000;
-            animation: scaleIn 0.3s ease-out;
-        ">
-            <h3>${gameMessages[gameType]}</h3>
-            <p>${languageManager.getText('gameLoading')}</p>
-        </div>
-    `;
-    document.body.appendChild(message);
-    
-    // Открываем игру в новой вкладке или в текущей странице
-    const externalGames = ['kochmon', 'flappy', 'kyz1', 'kyz2', 'tynchyspy', 'richwheel', 'kyrgyzmemory'];
-    const isExternal = externalGames.includes(gameType);
-    const externalWindow = isExternal ? window.open('', '_blank') : null;
-
-    setTimeout(() => {
-        if (isExternal) {
-            // Внешние игры - открываем в новой вкладке без блокировки попапа
-            if (externalWindow) {
-                externalWindow.location.href = gameLinks[gameType];
-                externalWindow.focus();
-            } else {
-                window.location.href = gameLinks[gameType];
-            }
-        } else {
-            // Локальные игры - переходим на текущей странице
-            window.location.href = gameLinks[gameType];
-        }
-        message.remove();
-    }, 1500);
-};
-
-// Функции валидации
-function validateUsername(username) {
-    // Проверка длины
-    if (username.length < 3) {
-        showError(languageManager.getText('usernameMinLength'));
-        return false;
-    }
-    
-    if (username.length > 20) {
-        showError(languageManager.getText('usernameMaxLength'));
-        return false;
-    }
-    
-    // Проверка на разрешенные символы (только буквы, цифры, подчеркивания)
-    const usernameRegex = /^[a-zA-Z0-9_]+$/;
-    if (!usernameRegex.test(username)) {
-        showError(languageManager.getText('usernameInvalidChars'));
-        return false;
-    }
-    
-    // Проверка на начало с буквы
-    if (!/^[a-zA-Z]/.test(username)) {
-        showError(languageManager.getText('usernameStartLetter'));
-        return false;
-    }
-    
-    return true;
-}
-
-function validateEmail(email) {
-    // Проверка на пустоту
-    if (!email) {
-        showError(languageManager.getText('emailRequired'));
-        return false;
-    }
-    
-    // Проверка длины
-    if (email.length > 254) {
-        showError(languageManager.getText('emailTooLong'));
-        return false;
-    }
-    
-    // Регулярное выражение для проверки email
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    
-    if (!emailRegex.test(email)) {
-        showError(languageManager.getText('emailInvalid'));
-        return false;
-    }
-    
-    // Дополнительные проверки
-    const parts = email.split('@');
-    if (parts.length !== 2) {
-        showError(languageManager.getText('emailOneAt'));
-        return false;
-    }
-    
-    const [localPart, domainPart] = parts;
-    
-    // Проверка локальной части
-    if (localPart.length === 0 || localPart.length > 64) {
-        showError(languageManager.getText('emailLocalInvalid'));
-        return false;
-    }
-    
-    // Проверка доменной части
-    if (domainPart.length === 0 || domainPart.length > 253) {
-        showError(languageManager.getText('emailDomainInvalid'));
-        return false;
-    }
-    
-    // Проверка на точки в начале/конце
-    if (localPart.startsWith('.') || localPart.endsWith('.')) {
-        showError(languageManager.getText('emailStartEndDot'));
-        return false;
-    }
-    
-    // Проверка на двойные точки
-    if (localPart.includes('..')) {
-        showError(languageManager.getText('emailDoubleDot'));
-        return false;
-    }
-    
-    return true;
-}
-
-function validatePassword(password) {
-    // Проверка длины
-    if (password.length < 8) {
-        showError(languageManager.getText('passwordMinLength'));
-        return false;
-    }
-    
-    if (password.length > 128) {
-        showError(languageManager.getText('passwordMaxLength'));
-        return false;
-    }
-    
-    // Проверка на наличие заглавной буквы
-    if (!/[A-Z]/.test(password)) {
-        showError(languageManager.getText('passwordUppercase'));
-        return false;
-    }
-    
-    // Проверка на наличие строчной буквы
-    if (!/[a-z]/.test(password)) {
-        showError(languageManager.getText('passwordLowercase'));
-        return false;
-    }
-    
-    // Проверка на наличие цифры
-    if (!/\d/.test(password)) {
-        showError(languageManager.getText('passwordNumber'));
-        return false;
-    }
-    
-    // Проверка на наличие специального символа
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) {
-        showError(languageManager.getText('passwordSpecial'));
-        return false;
-    }
-    
-    // Проверка на пробелы
-    if (/\s/.test(password)) {
-        showError(languageManager.getText('passwordNoSpaces'));
-        return false;
-    }
-    
-    // Проверка на распространенные слабые пароли
-    const commonPasswords = [
-        'password', '123456', '123456789', 'qwerty', 'abc123',
-        'password123', 'admin', 'letmein', 'welcome', 'monkey',
-        '1234567890', 'password1', 'qwerty123', 'dragon', 'master'
-    ];
-    
-    if (commonPasswords.includes(password.toLowerCase())) {
-        showError(languageManager.getText('passwordCommon'));
-        return false;
-    }
-    
-    return true;
-}
-
-function isUserExists(email) {
-    // В реальном приложении здесь была бы проверка базы данных
-    // Для демонстрации проверяем localStorage
-    const existingUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
-    return existingUsers.some(user => user.email.toLowerCase() === email.toLowerCase());
-}
-
-function saveUserToDatabase(userData) {
-    // Сохраняем пользователя в "базу данных" (localStorage)
-    const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
-    allUsers.push({
-        ...userData,
-        id: Date.now().toString(),
-        passwordHash: hashPassword(userData.password), // В реальном приложении пароль хешируется
-        createdAt: new Date().toISOString()
-    });
-    localStorage.setItem('allUsers', JSON.stringify(allUsers));
-}
-
-function hashPassword(password) {
-    // Простая хеш-функция для демонстрации
-    // В реальном приложении используйте bcrypt или подобные библиотеки
-    let hash = 0;
-    for (let i = 0; i < password.length; i++) {
-        const char = password.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash.toString();
-}
-
-// Добавляем CSS анимации
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
-    @keyframes scaleIn {
-        from { transform: scale(0.8); opacity: 0; }
-        to { transform: scale(1); opacity: 1; }
-    }
-    
-    @keyframes slideInFromRight {
-        from { transform: translateX(100%); opacity: 0; }
-        to { transform: translateX(0); opacity: 1; }
-    }
-    
-    @keyframes slideOutToRight {
-        from { transform: translateX(0); opacity: 1; }
-        to { transform: translateX(100%); opacity: 0; }
-    }
-    
-    .game-selection-modal .game-modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid #e5e7eb;
-    }
-    
-    .game-selection-modal .close-modal {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
-        color: #6b7280;
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-    }
-    
-    .game-selection-modal .close-modal:hover {
-        background: #f3f4f6;
-        color: #374151;
-    }
-    
-    .game-selection-modal .games-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 1.5rem;
-    }
-    
-    .game-selection-modal .game-card-modal {
-        background: #f9fafb;
-        padding: 1.5rem;
-        border-radius: 12px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
-    
-    .game-selection-modal .game-card-modal:hover {
-        background: white;
-        border-color: #8c3f21;
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
-    
-    .game-selection-modal .game-card-modal i {
-        font-size: 2rem;
-        color: #8c3f21;
-        margin-bottom: 1rem;
-    }
-    
-    .game-selection-modal .game-card-modal h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #1f2937;
-    }
-    
-    .game-selection-modal .game-card-modal p {
-        font-size: 0.9rem;
-        color: #6b7280;
-    }
-`;
-document.head.appendChild(style);
-
-// Система автоматического обновления при возврате с игры
-class GameReturnManager {
-    constructor() {
-        this.gameWindow = null;
-        this.isGameOpen = false;
-        this.lastFocusTime = Date.now();
-        this.init();
-    }
-    
-    init() {
-        // Отслеживаем открытие игр
-        this.originalStartGame = window.startGame;
-        window.startGame = (gameType) => {
-            this.handleGameStart(gameType);
-        };
-        
-        // Отслеживаем фокус окна
-        window.addEventListener('focus', () => {
-            this.handleWindowFocus();
+    function initEvents() {
+        safeBind(ui.loginBtn, "click", () => showAuthForms("login"));
+        safeBind(ui.ctaLoginBtn, "click", () => {
+            if (getCurrentUser()) openProfile();
+            else showAuthForms("login");
         });
-        
-        // Отслеживаем потерю фокуса
-        window.addEventListener('blur', () => {
-            this.handleWindowBlur();
+        safeBind(ui.playBtn, "click", trackPlayAndOpenGames);
+        safeBind(ui.cancelLogin, "click", hideAuthForms);
+        safeBind(ui.cancelReg, "click", hideAuthForms);
+
+        safeBind(ui.loginTab, "click", () => showAuthForms("login"));
+        safeBind(ui.registerTab, "click", () => showAuthForms("register"));
+        safeBind(ui.loginFormElement, "submit", loginUser);
+        safeBind(ui.regForm, "submit", registerUser);
+
+        safeBind(byId("password"), "input", updatePasswordMeter);
+        safeBind(byId("confirmPassword"), "input", updatePasswordMeter);
+
+        safeBind(ui.profileBtn, "click", openProfile);
+        safeBind(ui.backToMainBtn, "click", closeProfile);
+
+        safeBind(ui.profileTab, "click", () => openProfileTab("profile"));
+        safeBind(ui.settingsTab, "click", () => openProfileTab("settings"));
+        safeBind(ui.accountTab, "click", () => openProfileTab("account"));
+
+        safeBind(ui.userMenuBtn, "click", () => {
+            if (!ui.userMenu) return;
+            ui.userMenu.style.display = ui.userMenu.style.display === "block" ? "none" : "block";
         });
-        
-        // Проверяем каждые 2 секунды, если окно было неактивно
-        setInterval(() => {
-            this.checkWindowActivity();
-        }, 2000);
-    }
-    
-    handleGameStart(gameType) {
-        this.isGameOpen = true;
-        this.lastFocusTime = Date.now();
-        
-        // Вызываем оригинальную функцию
-        this.originalStartGame(gameType);
-        
-        // Отслеживаем открытие новой вкладки
-        setTimeout(() => {
-            this.checkForGameWindow();
-        }, 2000);
-    }
-    
-    checkForGameWindow() {
-        // Проверяем, открыта ли игра в новой вкладке
-        if (this.isGameOpen) {
-            // Устанавливаем флаг для отслеживания возврата
-            localStorage.setItem('gameOpened', 'true');
-            localStorage.setItem('gameOpenTime', Date.now().toString());
-        }
-    }
-    
-    handleWindowFocus() {
-        const now = Date.now();
-        const timeSinceLastFocus = now - this.lastFocusTime;
-        
-        // Если прошло больше 5 секунд с последнего фокуса
-        if (timeSinceLastFocus > 5000) {
-            this.handleGameReturn();
-        }
-        
-        this.lastFocusTime = now;
-    }
-    
-    handleWindowBlur() {
-        this.lastFocusTime = Date.now();
-    }
-    
-    checkWindowActivity() {
-        const gameOpened = localStorage.getItem('gameOpened') === 'true';
-        const gameOpenTime = parseInt(localStorage.getItem('gameOpenTime') || '0');
-        const now = Date.now();
-        
-        // Если игра была открыта и прошло больше 10 секунд
-        if (gameOpened && (now - gameOpenTime) > 10000) {
-            // Проверяем, активна ли текущая вкладка
-            if (document.hasFocus()) {
-                this.handleGameReturn();
-            }
-        }
-    }
-    
-    handleGameReturn() {
-        const gameOpened = localStorage.getItem('gameOpened') === 'true';
-        
-        if (gameOpened) {
-            console.log('🎮 Обнаружен возврат с игры! Обновляем интерфейс...');
-            
-            // Очищаем флаги
-            localStorage.removeItem('gameOpened');
-            localStorage.removeItem('gameOpenTime');
-            
-            // Обновляем состояние сайта
-            this.refreshSiteState();
-            
-            // Показываем уведомление о возврате
-            this.showReturnNotification();
-        }
-    }
-    
-    refreshSiteState() {
-        // Обновляем язык и тему
-        if (languageManager) {
-            languageManager.updateUI();
-        }
-        
-        if (settingsManager) {
-            settingsManager.applyTheme(settingsManager.settings.theme);
-        }
-        
-        // Обновляем состояние пользователя
-        if (isRegistered) {
-            updateLoginButton();
-        }
-        
-        // Обновляем профиль если он открыт
-        if (profilePage && profilePage.style.display !== 'none') {
-            updateProfileData();
-        }
-        
-        // Очищаем любые открытые модальные окна
-        const modals = document.querySelectorAll('.game-selection-modal, .logout-confirmation, .delete-confirmation');
-        modals.forEach(modal => modal.remove());
-        
-        // Скрываем меню пользователя
-        hideUserMenu();
-        
-        console.log('✅ Состояние сайта обновлено!');
-    }
-    
-    showReturnNotification() {
-        const notification = document.createElement('div');
-        notification.className = 'return-notification';
-        notification.innerHTML = `
-            <div style="
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #8c3f21 0%, #c79a42 100%);
-                color: white;
-                padding: 1rem 1.5rem;
-                border-radius: 12px;
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-                z-index: 10000;
-                animation: slideInFromRight 0.5s ease-out;
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-            ">
-                <i class="fas fa-gamepad" style="font-size: 1.2rem;"></i>
-                <span>${languageManager.getText('returnFromGame')}</span>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        // Автоматически скрываем через 3 секунды
-        setTimeout(() => {
-            notification.style.animation = 'slideOutToRight 0.5s ease-out';
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.parentNode.removeChild(notification);
-                }
-            }, 500);
-        }, 3000);
-    }
-}
 
-// Инициализируем систему отслеживания возврата с игр
-const gameReturnManager = new GameReturnManager();
+        document.addEventListener("click", (event) => {
+            const target = event.target;
+            if (!ui.userMenu || !ui.userMenuBtn) return;
+            const clickedInsideMenu = ui.userMenu.contains(target);
+            const clickedMenuBtn = ui.userMenuBtn.contains(target);
+            if (!clickedInsideMenu && !clickedMenuBtn) hideUserMenu();
+        });
 
+        safeBind(ui.logoutBtn, "click", logoutUser);
+        safeBind(ui.logoutAccountBtn, "click", logoutUser);
+        safeBind(ui.deleteAccountMenuBtn, "click", deleteCurrentUser);
+        safeBind(ui.deleteAccountDangerBtn, "click", deleteCurrentUser);
+        safeBind(ui.changeUsernameBtn, "click", changeUsername);
+        safeBind(ui.changePasswordBtn, "click", changePassword);
+        safeBind(ui.exportDataBtn, "click", exportUserData);
 
+        document.querySelectorAll(".language-btn").forEach((btn) => {
+            safeBind(btn, "click", () => {
+                const settings = getSettings();
+                settings.language = btn.dataset.lang || "ky";
+                saveSettings(settings);
+                applyLanguage();
+                updateAuthUI();
+            });
+        });
 
+        document.querySelectorAll(".theme-btn").forEach((btn) => {
+            safeBind(btn, "click", () => {
+                const settings = getSettings();
+                settings.theme = btn.dataset.theme || "light";
+                saveSettings(settings);
+                applyTheme();
+            });
+        });
 
+        safeBind(byId("emailNotifications"), "change", saveNotificationsFromUI);
+        safeBind(byId("gameNotifications"), "change", saveNotificationsFromUI);
+        safeBind(byId("newsNotifications"), "change", saveNotificationsFromUI);
 
+        window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+            const settings = getSettings();
+            if (settings.theme === "auto") applyTheme();
+        });
+    }
 
+    function init() {
+        applyTheme();
+        applyLanguage();
+        applyNotificationSettingsToUI();
+        updateAuthUI();
+        closeProfile();
+        initEvents();
+    }
+
+    init();
+})();

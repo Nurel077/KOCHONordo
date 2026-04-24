@@ -1,0 +1,14 @@
+{
+  "name": "kochmon-ordo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Kochmon Ordo static website prepared for Railway deploy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+
